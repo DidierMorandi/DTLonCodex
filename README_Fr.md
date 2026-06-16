@@ -9,8 +9,6 @@ Ce dépôt rassemble un guide utilisateur, un manuel de référence et une versi
 - [Documentation complète](OpenAI_Codex_Documentation_NetDTL.html) : version HTML en une seule page, avec navigation et recherche.
 - [Manuel de référence](DTLonCodex_Manuel_de_reference.html) : description fonctionnelle des surfaces, objets, mécanismes et capacités Codex.
 - [Guide utilisateur](DTLonCodex_Guide_utilisateur.html) : mode d'emploi pratique pour démarrer, guider Codex, vérifier les résultats et traiter les scénarios courants.
-- [Manuel de référence Markdown](OpenAI_Codex_Ref_Man_FR.md) : source textuelle du manuel.
-- [Guide utilisateur Markdown](OpenAI_Codex_UG_FR.md) : source textuelle du guide.
 
 ## À quoi sert cette documentation
 
