@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DTLonCodex - Reference Manual</title>
+  <style>
+:root { --bg:#0b0d0f; --panel:#131619; --text:#e8eaed; --muted:#9aa4b2; --blue:#0616b8; --blue2:#0b35ff; --green:#00ff2f; --warning:#ffbf00; --border:rgba(255,255,255,.12); --shadow:0 22px 70px rgba(0,0,0,.36); --paper-text:#14181f; }
+* { box-sizing:border-box; } html { scroll-behavior:smooth; }
+body { margin:0; background:radial-gradient(circle at 12% 0%,rgba(11,53,255,.26),transparent 34rem),linear-gradient(180deg,#080a0d 0%,var(--bg) 38%,#090b0f 100%); color:var(--text); font-family:"Segoe UI",Arial,sans-serif; line-height:1.65; }
+a { color:inherit; } .shell { width:min(1320px,calc(100% - 32px)); margin:0 auto; }
+.hero { padding:32px 0 22px; border-bottom:1px solid var(--border); } .brand { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.logo-stack { display:flex; flex-direction:column; align-items:center; gap:6px; } .logo-by { color:var(--muted); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; } .brand img { width:134px; max-width:min(40vw,134px); } h1 { margin:8px 0; font-size:clamp(2rem,5vw,4.2rem); line-height:.98; letter-spacing:0; } .subtitle { max-width:820px; color:var(--muted); font-size:1.08rem; margin:0; }
+.doc-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; } .doc-links a { text-decoration:none; color:#fff; border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.05); padding:9px 12px; } .doc-links a:hover { border-color:rgba(0,255,47,.45); color:var(--green); }
+.layout { display:grid; grid-template-columns:300px 1fr; gap:22px; padding:24px 0 56px; } .toc { position:sticky; top:14px; align-self:start; max-height:calc(100vh - 28px); overflow:auto; padding:18px; border:1px solid var(--border); border-radius:8px; background:rgba(19,22,25,.86); box-shadow:var(--shadow); backdrop-filter:blur(10px); } .toc-title { margin:0 0 12px; color:#fff; font-weight:700; } .toc a { display:block; text-decoration:none; color:var(--muted); padding:5px 0; border-left:2px solid transparent; } .toc a:hover { color:#fff; border-left-color:var(--green); padding-left:8px; } .toc-l1 { font-weight:700; color:#dce5ff!important; margin-top:8px; } .toc-l2 { padding-left:10px!important; }
+article { border:1px solid var(--border); border-radius:8px; background:linear-gradient(180deg,rgba(26,30,35,.96),rgba(13,15,18,.96)); box-shadow:var(--shadow); padding:clamp(22px,4vw,44px); } article h1:first-child { display:none; } article h1 { margin:34px 0 14px; padding-top:16px; border-top:1px solid var(--border); font-size:clamp(1.8rem,3vw,2.5rem); } article h2 { margin:28px 0 10px; font-size:1.35rem; color:#fff; } article p { margin:0 0 13px; color:#d8dde6; } article ul, article ol { margin:8px 0 16px; padding-left:1.4rem; } article li { margin:5px 0; }
+code { background:rgba(0,255,47,.08); border:1px solid rgba(0,255,47,.22); color:#baffc5; border-radius:5px; padding:.08rem .28rem; } pre { margin:16px 0 20px; padding:16px; overflow:auto; background:#07090c; border:1px solid rgba(78,158,255,.22); border-radius:8px; } pre code { border:0; background:transparent; color:#d9fbe0; padding:0; }
+.meta { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:24px; } .meta-card { border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.04); padding:14px; } .meta-card strong { display:block; color:var(--green); font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; } .meta-card span { color:#fff; } footer { border-top:1px solid var(--border); padding:24px 0 40px; color:var(--muted); }
+@media (max-width:940px) { .layout { grid-template-columns:1fr; } .toc { position:relative; top:auto; max-height:300px; } .meta { grid-template-columns:1fr; } }
+@media print { body { background:white; color:var(--paper-text); } .hero,.toc,footer { display:none!important; } .shell { width:auto; margin:0; } .layout { display:block; padding:0; } article { border:0; box-shadow:none; padding:0; background:white; color:var(--paper-text); } article p { color:var(--paper-text); } article h1:first-child { display:block; } code,pre { border:1px solid #ccc; color:#111; background:#f5f5f5; } }
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell">
+      <div class="brand">
+        <div class="logo-stack">
+          <div class="logo-by">A production</div>
+          <img src="netdtl_logo.png" alt="NetDTL">
+        </div>
+        <div>
+          <h1>DTLonCodex - Reference Manual</h1>
+          <p class="subtitle">Functional reference for OpenAI Codex software.</p>
+        </div>
+      </div>
+      <nav class="doc-links" aria-label="Document navigation">
+        <a href="index_En.html">Home</a>
+        <a href="OpenAI_Codex_Documentation_NetDTL.html">Complete documentation</a>
+        <a href="DTLonCodex_Manuel_de_reference.html">French version</a>
+        <a href="DTLonCodex_Guide_utilisateur.html">User guide</a>
+      </nav>
+      <div class="meta"><div class="meta-card"><strong>Tool</strong><span>DTLonCodex</span></div><div class="meta-card"><strong>Type</strong><span>OpenAI Codex reference manual</span></div><div class="meta-card"><strong>Language</strong><span>English</span></div></div>
+    </div>
+  </header>
+  <main class="shell layout">
+    <nav class="toc" aria-label="Table of contents"><p class="toc-title">Table of Contents</p>
+<a class="toc-l2" href="#ref-preface">Preface</a>
+<a class="toc-l2" href="#ref-audience">Audience</a>
+<a class="toc-l2" href="#ref-structure">Document structure</a>
+<a class="toc-l2" href="#ref-related-documents">Related documents</a>
+<a class="toc-l2" href="#ref-conventions">Conventions</a>
+<a class="toc-l1" href="#ref-1-functional-overview">1. Functional overview</a>
+<a class="toc-l1" href="#ref-2-execution-surfaces">2. Execution surfaces</a>
+<a class="toc-l2" href="#ref-2-1-codex-app">2.1 Codex App</a>
+<a class="toc-l2" href="#ref-2-2-codex-cli">2.2 Codex CLI</a>
+<a class="toc-l2" href="#ref-2-3-ide-extension">2.3 IDE Extension</a>
+<a class="toc-l2" href="#ref-2-4-codex-web-and-cloud">2.4 Codex Web and Cloud</a>
+<a class="toc-l2" href="#ref-2-5-local-worktree-cloud">2.5 Local, Worktree, and Cloud modes</a>
+<a class="toc-l1" href="#ref-3-models-reasoning-context">3. Models, reasoning, and context</a>
+<a class="toc-l2" href="#ref-3-1-models">3.1 Models</a>
+<a class="toc-l2" href="#ref-3-2-reasoning">3.2 Reasoning</a>
+<a class="toc-l2" href="#ref-3-3-conversation-context">3.3 Conversation context</a>
+<a class="toc-l2" href="#ref-3-4-memories">3.4 Memories</a>
+<a class="toc-l1" href="#ref-4-tools-code-operations">4. Tools and code operations</a>
+<a class="toc-l2" href="#ref-4-1-files">4.1 Reading and modifying files</a>
+<a class="toc-l2" href="#ref-4-2-commands">4.2 Command execution</a>
+<a class="toc-l2" href="#ref-4-3-code-review">4.3 Code review</a>
+<a class="toc-l2" href="#ref-4-4-git">4.4 Git</a>
+<a class="toc-l2" href="#ref-4-5-terminal">4.5 Integrated terminal</a>
+<a class="toc-l2" href="#ref-4-6-browser">4.6 Integrated browser and Browser Use</a>
+<a class="toc-l2" href="#ref-4-7-computer-use">4.7 Computer Use</a>
+<a class="toc-l2" href="#ref-4-8-images">4.8 Image inputs and image generation</a>
+<a class="toc-l2" href="#ref-4-9-artifacts">4.9 Non-code artifacts</a>
+<a class="toc-l1" href="#ref-5-customization">5. Customization</a>
+<a class="toc-l2" href="#ref-5-1-agents-md">5.1 AGENTS.md</a>
+<a class="toc-l2" href="#ref-5-2-configuration">5.2 Configuration</a>
+<a class="toc-l2" href="#ref-5-3-skills">5.3 Skills</a>
+<a class="toc-l2" href="#ref-5-4-plugins">5.4 Plugins</a>
+<a class="toc-l2" href="#ref-5-5-mcp">5.5 MCP</a>
+<a class="toc-l2" href="#ref-5-6-hooks">5.6 Hooks</a>
+<a class="toc-l2" href="#ref-5-7-subagents">5.7 Subagents</a>
+<a class="toc-l1" href="#ref-6-security">6. Security, sandboxing, and approvals</a>
+<a class="toc-l2" href="#ref-6-1-sandbox">6.1 Sandbox</a>
+<a class="toc-l2" href="#ref-6-2-approvals">6.2 Approvals</a>
+<a class="toc-l2" href="#ref-6-3-permissions">6.3 Permissions</a>
+<a class="toc-l2" href="#ref-6-4-network">6.4 Network</a>
+<a class="toc-l1" href="#ref-7-automation-integrations">7. Automation and integrations</a>
+<a class="toc-l2" href="#ref-7-1-automations">7.1 Automations</a>
+<a class="toc-l2" href="#ref-7-2-non-interactive">7.2 Non-interactive mode</a>
+<a class="toc-l2" href="#ref-7-3-sdk">7.3 Codex SDK</a>
+<a class="toc-l2" href="#ref-7-4-app-server">7.4 App Server and remote mode</a>
+<a class="toc-l2" href="#ref-7-5-integrations">7.5 GitHub, Slack, and Linear integrations</a>
+<a class="toc-l1" href="#ref-8-reference-objects">8. Reference objects</a>
+<a class="toc-l2" href="#ref-8-1-project">8.1 Project</a>
+<a class="toc-l2" href="#ref-8-2-thread">8.2 Thread</a>
+<a class="toc-l2" href="#ref-8-3-worktree">8.3 Worktree</a>
+<a class="toc-l2" href="#ref-8-4-chat">8.4 Chat</a>
+<a class="toc-l2" href="#ref-8-5-skill">8.5 Skill</a>
+<a class="toc-l2" href="#ref-8-6-plugin">8.6 Plugin</a>
+<a class="toc-l2" href="#ref-8-7-mcp-server">8.7 MCP server</a>
+<a class="toc-l2" href="#ref-8-8-hook">8.8 Hook</a>
+<a class="toc-l2" href="#ref-8-9-automation">8.9 Automation</a>
+<a class="toc-l2" href="#ref-8-10-sandbox">8.10 Sandbox</a>
+<a class="toc-l1" href="#ref-9-command-config">9. Command and configuration entries</a>
+<a class="toc-l2" href="#ref-9-1-codex-command">9.1 The <code>codex</code> command</a>
+<a class="toc-l2" href="#ref-9-2-resume">9.2 <code>resume</code> subcommand</a>
+<a class="toc-l2" href="#ref-9-3-exec">9.3 <code>exec</code> subcommand</a>
+<a class="toc-l2" href="#ref-9-4-server">9.4 Server subcommands</a>
+<a class="toc-l2" href="#ref-9-5-slash">9.5 Slash commands</a>
+<a class="toc-l2" href="#ref-9-6-agents-file">9.6 <code>AGENTS.md</code> file</a>
+<a class="toc-l2" href="#ref-9-7-config-file">9.7 Configuration file</a>
+<a class="toc-l2" href="#ref-9-8-env">9.8 Environment variables</a>
+<a class="toc-l2" href="#ref-9-9-rules-hooks">9.9 Rules and hooks</a>
+<a class="toc-l2" href="#ref-9-10-permission-profiles">9.10 Permission profiles</a>
+<a class="toc-l1" href="#ref-10-functional-matrix">10. Functional matrix</a>
+<a class="toc-l2" href="#ref-10-1-by-surface">10.1 Features by surface</a>
+<a class="toc-l2" href="#ref-10-2-by-task">10.2 Features by task type</a>
+<a class="toc-l2" href="#ref-10-3-mechanism-relations">10.3 Relationships between mechanisms</a>
+<a class="toc-l1" href="#ref-sources">Sources</a></nav>
+    <section><article>
+<h1 id="ref-openai-codex-reference-manual">OpenAI Codex - Reference Manual</h1>
+<p>French working version translated into English, based on the official OpenAI Codex documentation and the DEC/VSI documentation presentation.</p>
+<h2 id="ref-preface">Preface</h2>
+<p>This reference manual describes the functions of OpenAI Codex. It is not a step-by-step user guide. Commands, menus, and files are mentioned only to identify the functions they expose.</p>
+<p>Codex is OpenAI's software development agent. It assists with programming, code analysis, review, defect correction, migration, documentation, testing, and automation of development work.</p>
+<h2 id="ref-audience">Audience</h2>
+<p>This manual is intended for developers, maintainers, technical leads, review teams, and administrators who need to know the functions available in Codex and the limits of each execution surface.</p>
+<h2 id="ref-structure">Document structure</h2>
+<p>This manual contains the following chapters:</p>
+<ul>
+<li>Chapter 1: functional presentation of Codex.</li>
+<li>Chapter 2: execution surfaces.</li>
+<li>Chapter 3: models, reasoning, and context.</li>
+<li>Chapter 4: tools and code operations.</li>
+<li>Chapter 5: customization.</li>
+<li>Chapter 6: security, sandboxing, and approvals.</li>
+<li>Chapter 7: automation and integrations.</li>
+<li>Chapter 8: reference objects.</li>
+<li>Chapter 9: command and configuration entries.</li>
+<li>Chapter 10: functional matrix.</li>
+</ul>
+<h2 id="ref-related-documents">Related documents</h2>
+<p>The main official sources are the OpenAI Developers pages for Codex Overview, Codex Quickstart, Codex app features, Codex CLI features, Codex customization, and the pages related to configuration, permissions, sandboxing, MCP, skills, hooks, plugins, subagents, and automations.</p>
+<h2 id="ref-conventions">Conventions</h2>
+<p>File names, options, commands, variables, and identifiers are shown in monospace. The terms App, CLI, IDE Extension, Web, Local, Worktree, and Cloud designate official Codex surfaces and modes.</p>
+<h1 id="ref-1-functional-overview">1. Functional overview</h1>
+<p>Codex provides an interactive agent that can read a workspace, reason about its contents, propose a plan, modify files, execute commands, verify results, and report on its work.</p>
+<p>Main functions include:</p>
+<ul>
+<li>code generation and modification;</li>
+<li>understanding and explaining codebases;</li>
+<li>reviewing changes;</li>
+<li>diagnosing and correcting errors;</li>
+<li>running local or remote commands depending on the surface;</li>
+<li>producing and verifying artifacts;</li>
+<li>managing parallel tasks;</li>
+<li>interacting with external tools;</li>
+<li>automating recurring tasks.</li>
+</ul>
+<p>Codex applies the thread instructions, project guidance, configuration rules, and security constraints available in the active environment.</p>
+<h1 id="ref-2-execution-surfaces">2. Execution surfaces</h1>
+<h2 id="ref-2-1-codex-app">2.1 Codex App</h2>
+<p>The Codex App is a desktop application for macOS and Windows. It provides an experience centered on Codex threads, projects, worktrees, automations, and integrated Git functions.</p>
+<p>It includes a project list, project-specific discussion threads, Local, Worktree, and Cloud modes, an integrated terminal for each thread, a Git diff panel, common Git functions, an integrated browser, artifact support, and support for skills, MCP, notifications, memories, and automations.</p>
+<h2 id="ref-2-2-codex-cli">2.2 Codex CLI</h2>
+<p>The CLI client provides a full-screen terminal interface and non-interactive subcommands. It supports working from a local directory, resuming sessions, and running Codex in automated workflows.</p>
+<p>CLI functions include interactive conversational mode, launch with an initial prompt, resuming previous sessions, model selection, output display and copying, prompt history, non-interactive execution, the app server, and remote mode.</p>
+<h2 id="ref-2-3-ide-extension">2.3 IDE Extension</h2>
+<p>The IDE extension places Codex inside the editor. It provides context from open files and allows tasks to be run directly from the editor project.</p>
+<p>It supports default agent mode, reading and editing within the project directory, synchronization with the Codex App when both surfaces are open on the same project, IDE commands, slash commands, and automatic context from viewed files.</p>
+<h2 id="ref-2-4-codex-web-and-cloud">2.4 Codex Web and Cloud</h2>
+<p>The Web surface allows Codex tasks to run in configured cloud environments. Cloud environments decouple execution from the local machine and support parallel or delegated tasks.</p>
+<p>Cloud functions depend on environment configuration, repository access, network policies, and active integrations.</p>
+<h2 id="ref-2-5-local-worktree-cloud">2.5 Local, Worktree, and Cloud modes</h2>
+<p>Local mode works in the current project directory. Worktree mode isolates changes in a separate Git worktree. Cloud mode runs work in a configured remote environment.</p>
+<p>Local and Worktree modes run on the user's computer. Worktree mode provides Git isolation between current work and changes produced by Codex.</p>
+<h1 id="ref-3-models-reasoning-context">3. Models, reasoning, and context</h1>
+<h2 id="ref-3-1-models">3.1 Models</h2>
+<p>Codex uses OpenAI models suited to development tasks. The official documentation identifies <code>gpt-5.5</code> as the recommended model for most Codex tasks, with emphasis on complex coding, tool use, planning, and multi-step work.</p>
+<p>Model availability depends on the plan, surface, and account permissions.</p>
+<h2 id="ref-3-2-reasoning">3.2 Reasoning</h2>
+<p>Codex can decompose a request, establish a plan, read relevant files, make modifications, run checks, and adjust its work based on the results obtained.</p>
+<p>Reasoning is constrained by accessible context, system and user instructions, project rules, available tools, permissions, the sandbox, and the approval policy.</p>
+<h2 id="ref-3-3-conversation-context">3.3 Conversation context</h2>
+<p>A Codex thread preserves messages, decisions, plans, and results relevant to the current work. Sessions can be resumed when the surface supports it.</p>
+<p>Context may include the current prompt, previous messages, contents of files that were read, command outputs, provided images or documents, project guidance, and data from connected tools.</p>
+<h2 id="ref-3-4-memories">3.4 Memories</h2>
+<p>When available, memories carry stable information across threads, such as preferences, project conventions, or recurring habits. They complement project guidance but do not replace explicit thread instructions.</p>
+<h1 id="ref-4-tools-code-operations">4. Tools and code operations</h1>
+<h2 id="ref-4-1-files">4.1 Reading and modifying files</h2>
+<p>Codex can read accessible files, analyze their structure, and produce changes. Modifications are limited by the workspace, sandbox, and granted permissions.</p>
+<h2 id="ref-4-2-commands">4.2 Command execution</h2>
+<p>Codex can execute commands through the active surface, including commands to inspect a project, run tests, start a local server, format code, or verify a result. Execution is subject to approvals and sandbox restrictions.</p>
+<h2 id="ref-4-3-code-review">4.3 Code review</h2>
+<p>Codex provides a review function that searches for defects, regressions, behavioral risks, and test gaps. In the Codex App, the diff panel can be used to inspect changes, comment on lines, and request fixes.</p>
+<h2 id="ref-4-4-git">4.4 Git</h2>
+<p>Codex integrates or uses Git functions depending on the surface: diff display, staging, commit, push, pull request creation, worktree work, and repository state inspection.</p>
+<h2 id="ref-4-5-terminal">4.5 Integrated terminal</h2>
+<p>In the Codex App, each thread has a terminal associated with the project or worktree. This terminal provides a local channel for verification and project operation commands.</p>
+<h2 id="ref-4-6-browser">4.6 Integrated browser and Browser Use</h2>
+<p>The Codex App provides an integrated browser to preview, comment on, and verify local pages, file previews, or public pages that do not require login.</p>
+<p>Browser Use allows Codex to operate certain pages, including local development servers and file previews, when the required permissions and plugins are available.</p>
+<h2 id="ref-4-7-computer-use">4.7 Computer Use</h2>
+<p>Computer Use allows Codex to interact with macOS or Windows applications by seeing, clicking, and typing. This function targets desktop application testing, GUI issue reproduction, and flows not accessible through an API or plugin.</p>
+<h2 id="ref-4-8-images">4.8 Image inputs and image generation</h2>
+<p>Codex accepts images as context. It can also generate or edit images in a thread when the function is available, especially for interface assets, illustrations, placeholders, or sprites.</p>
+<h2 id="ref-4-9-artifacts">4.9 Non-code artifacts</h2>
+<p>Codex can produce and verify artifacts such as PDFs, documents, spreadsheets, and presentations. The Codex App can display these artifacts in the task sidebar.</p>
+<h1 id="ref-5-customization">5. Customization</h1>
+<h2 id="ref-5-1-agents-md">5.1 AGENTS.md</h2>
+<p><code>AGENTS.md</code> provides durable guidance for a repository or a part of a repository. Files closest to the working directory take precedence over more general files.</p>
+<p><code>AGENTS.md</code> is used to describe build and test commands, coding conventions, review expectations, paths or files to prefer, and instructions specific to a tree.</p>
+<h2 id="ref-5-2-configuration">5.2 Configuration</h2>
+<p>Codex can be configured through configuration files, environment variables, and surface settings. Configuration covers models, approvals, sandboxing, tools, MCP, hooks, and execution preferences.</p>
+<h2 id="ref-5-3-skills">5.3 Skills</h2>
+<p>Skills are reusable capabilities defined by a directory containing a <code>SKILL.md</code> file and, optionally, scripts, references, and assets.</p>
+<p>They make it possible to encapsulate repeatable workflows, domain expertise, templates and resources, validation procedures, and indirect integrations through MCP.</p>
+<h2 id="ref-5-4-plugins">5.4 Plugins</h2>
+<p>Plugins are distributable units that can include skills, tools, MCP servers, hooks, assets, or applications. They are used to package shareable capabilities.</p>
+<h2 id="ref-5-5-mcp">5.5 MCP</h2>
+<p>The Model Context Protocol connects Codex to external tools and systems. MCP configurations are shared between the Codex App, CLI, and IDE extension when supported by the surface.</p>
+<h2 id="ref-5-6-hooks">5.6 Hooks</h2>
+<p>Hooks attach processing to Codex lifecycle events. They are used to apply or verify technical policies around agent operations.</p>
+<h2 id="ref-5-7-subagents">5.7 Subagents</h2>
+<p>Subagents are specialized agents to which Codex can delegate parts of the work. They are intended for tasks that benefit from specialized expertise or context.</p>
+<h1 id="ref-6-security">6. Security, sandboxing, and approvals</h1>
+<h2 id="ref-6-1-sandbox">6.1 Sandbox</h2>
+<p>The sandbox defines the resources accessible to Codex: readable files, writable locations, network access, and other execution capabilities. By default, Codex limits its work to the active project when the surface supports it.</p>
+<h2 id="ref-6-2-approvals">6.2 Approvals</h2>
+<p>Approvals determine which operations require user confirmation or automatic review. They can be granted for a single action or for a broader scope depending on the surface and policy.</p>
+<h2 id="ref-6-3-permissions">6.3 Permissions</h2>
+<p>Permissions control access to files, commands, networks, local applications, and external tools. Permissions may come from local configuration, administrator policy, or user approval.</p>
+<h2 id="ref-6-4-network">6.4 Network</h2>
+<p>Network access may be disabled, limited, cached, or granted depending on the mode. First-party web search is available in some surfaces and may use cached or live results depending on configuration.</p>
+<h1 id="ref-7-automation-integrations">7. Automation and integrations</h1>
+<h2 id="ref-7-1-automations">7.1 Automations</h2>
+<p>Automations run recurring or scheduled tasks. They can produce reports, check errors, monitor changes, or continue follow-up work.</p>
+<p>Thread automations preserve the context of a specific conversation. Project or standalone automations run recurring work from a defined starting context.</p>
+<h2 id="ref-7-2-non-interactive">7.2 Non-interactive mode</h2>
+<p>Non-interactive mode allows Codex to run in scripts or integration pipelines. It is suitable for tasks defined by a prompt and configuration.</p>
+<h2 id="ref-7-3-sdk">7.3 Codex SDK</h2>
+<p>The Codex SDK provides a programming interface for integrating Codex into application workflows or internal tools.</p>
+<h2 id="ref-7-4-app-server">7.4 App Server and remote mode</h2>
+<p>The app server allows a Codex client to connect to a remote server through WebSocket or a local socket, with appropriate authentication mechanisms.</p>
+<h2 id="ref-7-5-integrations">7.5 GitHub, Slack, and Linear integrations</h2>
+<p>Integrations connect Codex to collaboration and tracking systems. Their availability depends on installation, account permissions, and organization configuration.</p>
+<h1 id="ref-8-reference-objects">8. Reference objects</h1>
+<h2 id="ref-8-1-project">8.1 Project</h2>
+<p>A project associates Codex with a directory or repository. It defines the main work perimeter.</p>
+<h2 id="ref-8-2-thread">8.2 Thread</h2>
+<p>A thread is an operational conversation with Codex. It contains the requests, responses, plans, outputs, and modifications associated with a task or series of tasks.</p>
+<h2 id="ref-8-3-worktree">8.3 Worktree</h2>
+<p>A worktree is a separate Git working copy used to isolate changes from a thread from the main directory.</p>
+<h2 id="ref-8-4-chat">8.4 Chat</h2>
+<p>A chat is a thread that does not necessarily depend on a project folder or repository. It is suitable for research, planning, and connected-tool workflows.</p>
+<h2 id="ref-8-5-skill">8.5 Skill</h2>
+<p>A skill is a reusable module of instructions and resources selected by Codex when a task matches its description.</p>
+<h2 id="ref-8-6-plugin">8.6 Plugin</h2>
+<p>A plugin is an installable package that groups Codex capabilities.</p>
+<h2 id="ref-8-7-mcp-server">8.7 MCP server</h2>
+<p>An MCP server exposes external tools, resources, or actions to Codex.</p>
+<h2 id="ref-8-8-hook">8.8 Hook</h2>
+<p>A hook is processing associated with a Codex event.</p>
+<h2 id="ref-8-9-automation">8.9 Automation</h2>
+<p>An automation is a scheduled or recurring execution of a Codex instruction.</p>
+<h2 id="ref-8-10-sandbox">8.10 Sandbox</h2>
+<p>The sandbox is the set of access limits applied to Codex actions.</p>
+<h1 id="ref-9-command-config">9. Command and configuration entries</h1>
+<p>This chapter describes the main functional entries. It is not a usage procedure.</p>
+<h2 id="ref-9-1-codex-command">9.1 The <code>codex</code> command</h2>
+<p>The <code>codex</code> command is the main entry point for the terminal client. It opens an interactive session when launched without a subcommand and accepts an initial prompt when text is provided.</p>
+<p>Associated functions:</p>
+<ul>
+<li>initializing a conversation in the current directory;</li>
+<li>selecting a model or session options;</li>
+<li>interacting with the sandbox and approvals;</li>
+<li>displaying plans, diffs, and outputs;</li>
+<li>resuming or delegating to subcommands.</li>
+</ul>
+<h2 id="ref-9-2-resume">9.2 <code>resume</code> subcommand</h2>
+<p><code>resume</code> represents the session resumption function. It attaches a new execution to an existing transcript and preserves relevant context from the previous conversation.</p>
+<p>Resume variants distinguish the latest session, a session selected from a list, a specific session by identifier, and, depending on the option, sessions outside the current directory.</p>
+<h2 id="ref-9-3-exec">9.3 <code>exec</code> subcommand</h2>
+<p><code>exec</code> represents non-interactive execution. It processes an instruction provided at launch and produces output intended for scripts, integration pipelines, or reproducible tasks.</p>
+<p>This function preserves Codex security constraints: sandboxing, approvals, configuration, project instructions, and tool limits.</p>
+<h2 id="ref-9-4-server">9.4 Server subcommands</h2>
+<p>Server functions, including the app server and remote modes, expose a Codex session to a client connecting through a local channel or WebSocket. They provide separation between the service process and the interaction client.</p>
+<p>Server functions include:</p>
+<ul>
+<li>listening on a local or remote address;</li>
+<li>authentication through a token or configured mechanism;</li>
+<li>remote client connection;</li>
+<li>control of a session from another surface.</li>
+</ul>
+<h2 id="ref-9-5-slash">9.5 Slash commands</h2>
+<p>Slash commands represent session actions available in interactive interfaces. They expose functions such as state display, model switching, context management, session exit, or access to help.</p>
+<p>Exact availability varies across CLI, IDE, and App.</p>
+<h2 id="ref-9-6-agents-file">9.6 <code>AGENTS.md</code> file</h2>
+<p><code>AGENTS.md</code> is a durable instruction file. It is read as project guidance and may exist at several levels: global user level, repository root, and subdirectories. Files closer to the working directory define the most specific guidance.</p>
+<p>Functional attributes:</p>
+<ul>
+<li>durable scope;</li>
+<li>versionable with the repository when placed in the project;</li>
+<li>priority by proximity;</li>
+<li>adaptation of Codex behavior before work starts;</li>
+<li>support for conventions, commands, and review expectations.</li>
+</ul>
+<h2 id="ref-9-7-config-file">9.7 Configuration file</h2>
+<p>The Codex configuration file represents persistent client and agent settings. It may define default values for the model, permissions, sandbox, MCP servers, hooks, and execution preferences.</p>
+<p>Effective settings result from combining global configuration, project configuration, launch options, managed policies, and interface choices.</p>
+<h2 id="ref-9-8-env">9.8 Environment variables</h2>
+<p>Environment variables provide a configuration channel outside the configuration file. They are suitable for secrets, environment-specific paths, and settings injected by an execution pipeline.</p>
+<p>An environment variable may be ignored or overridden if the surface, organization policy, or active configuration imposes another value.</p>
+<h2 id="ref-9-9-rules-hooks">9.9 Rules and hooks</h2>
+<p>Rules define allow or deny policies around commands and actions. Hooks provide execution points around Codex events.</p>
+<p>Rules are declarative. Hooks are procedural. Both mechanisms complement user approvals and sandbox limits.</p>
+<h2 id="ref-9-10-permission-profiles">9.10 Permission profiles</h2>
+<p>Permission profiles represent sets of granted or denied capabilities: reading, writing, execution, network access, access to additional directories, or use of external tools.</p>
+<p>Profiles may be defined locally, managed by an organization, or requested during a session.</p>
+<h1 id="ref-10-functional-matrix">10. Functional matrix</h1>
+<h2 id="ref-10-1-by-surface">10.1 Features by surface</h2>
+<p>The Codex App covers parallel threads, worktrees, integrated terminal, Git diffs, artifacts, integrated browser, automations, notifications, and IDE synchronization.</p>
+<p>The CLI covers terminal interaction, scriptable sessions, conversation resumption, non-interactive modes, launch options, and server or remote modes.</p>
+<p>The IDE extension covers editor context, open files, selections, IDE commands, and iteration directly inside the development environment.</p>
+<p>Codex Web and Cloud cover remote execution, configured environments, delegated tasks, and cloud integrations.</p>
+<h2 id="ref-10-2-by-task">10.2 Features by task type</h2>
+<p>For code understanding, Codex uses file reading, structure analysis, synthesis, and explanation.</p>
+<p>For code modification, Codex uses planning, editing, command execution, verification, and summary.</p>
+<p>For review, Codex uses diff inspection and searches for bugs, risks, regressions, and missing tests.</p>
+<p>For automation, Codex uses recurring prompts, project context, worktrees or local environments, skills, and notifications.</p>
+<p>For external integration, Codex uses MCP, plugins, connectors, APIs, or cloud surfaces depending on configuration.</p>
+<h2 id="ref-10-3-mechanism-relations">10.3 Relationships between mechanisms</h2>
+<p><code>AGENTS.md</code> describes durable repository rules. Skills describe reusable workflows. Plugins package capabilities. MCP connects Codex to external systems. Hooks impose processing around events. Automations schedule execution.</p>
+<p>These mechanisms are complementary: <code>AGENTS.md</code> guides behavior, skills describe how to perform workflows, MCP gives access to data or actions, hooks frame execution, and automations trigger work over time.</p>
+<h1 id="ref-sources">Sources</h1>
+<ul>
+<li>OpenAI Developers, Codex Overview, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex Quickstart, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex app features, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex CLI features, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex customization, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex documentation related to sandboxing, configuration, MCP, skills, and automation, consulted June 12, 2026.</li>
+</ul></article></section>
+  </main>
+  <footer><div class="shell">Sources: official OpenAI Developers Codex documentation and DEC/VSI PDF templates provided in the project.</div></footer>
+</body>
+</html>

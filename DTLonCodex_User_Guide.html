@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DTLonCodex - User Guide</title>
+  <style>
+:root { --bg:#0b0d0f; --panel:#131619; --text:#e8eaed; --muted:#9aa4b2; --blue:#0616b8; --blue2:#0b35ff; --green:#00ff2f; --warning:#ffbf00; --border:rgba(255,255,255,.12); --shadow:0 22px 70px rgba(0,0,0,.36); --paper-text:#14181f; }
+* { box-sizing:border-box; } html { scroll-behavior:smooth; }
+body { margin:0; background:radial-gradient(circle at 12% 0%,rgba(11,53,255,.26),transparent 34rem),linear-gradient(180deg,#080a0d 0%,var(--bg) 38%,#090b0f 100%); color:var(--text); font-family:"Segoe UI",Arial,sans-serif; line-height:1.65; }
+a { color:inherit; } .shell { width:min(1320px,calc(100% - 32px)); margin:0 auto; }
+.hero { padding:32px 0 22px; border-bottom:1px solid var(--border); } .brand { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.logo-stack { display:flex; flex-direction:column; align-items:center; gap:6px; } .logo-by { color:var(--muted); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; } .brand img { width:134px; max-width:min(40vw,134px); } h1 { margin:8px 0; font-size:clamp(2rem,5vw,4.2rem); line-height:.98; letter-spacing:0; } .subtitle { max-width:820px; color:var(--muted); font-size:1.08rem; margin:0; }
+.doc-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; } .doc-links a { text-decoration:none; color:#fff; border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.05); padding:9px 12px; } .doc-links a:hover { border-color:rgba(0,255,47,.45); color:var(--green); }
+.layout { display:grid; grid-template-columns:300px 1fr; gap:22px; padding:24px 0 56px; } .toc { position:sticky; top:14px; align-self:start; max-height:calc(100vh - 28px); overflow:auto; padding:18px; border:1px solid var(--border); border-radius:8px; background:rgba(19,22,25,.86); box-shadow:var(--shadow); backdrop-filter:blur(10px); } .toc-title { margin:0 0 12px; color:#fff; font-weight:700; } .toc a { display:block; text-decoration:none; color:var(--muted); padding:5px 0; border-left:2px solid transparent; } .toc a:hover { color:#fff; border-left-color:var(--green); padding-left:8px; } .toc-l1 { font-weight:700; color:#dce5ff!important; margin-top:8px; } .toc-l2 { padding-left:10px!important; }
+article { border:1px solid var(--border); border-radius:8px; background:linear-gradient(180deg,rgba(26,30,35,.96),rgba(13,15,18,.96)); box-shadow:var(--shadow); padding:clamp(22px,4vw,44px); } article h1:first-child { display:none; } article h1 { margin:34px 0 14px; padding-top:16px; border-top:1px solid var(--border); font-size:clamp(1.8rem,3vw,2.5rem); } article h2 { margin:28px 0 10px; font-size:1.35rem; color:#fff; } article p { margin:0 0 13px; color:#d8dde6; } article ul, article ol { margin:8px 0 16px; padding-left:1.4rem; } article li { margin:5px 0; }
+code { background:rgba(0,255,47,.08); border:1px solid rgba(0,255,47,.22); color:#baffc5; border-radius:5px; padding:.08rem .28rem; } pre { margin:16px 0 20px; padding:16px; overflow:auto; background:#07090c; border:1px solid rgba(78,158,255,.22); border-radius:8px; } pre code { border:0; background:transparent; color:#d9fbe0; padding:0; }
+.meta { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:24px; } .meta-card { border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.04); padding:14px; } .meta-card strong { display:block; color:var(--green); font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; } .meta-card span { color:#fff; } footer { border-top:1px solid var(--border); padding:24px 0 40px; color:var(--muted); }
+@media (max-width:940px) { .layout { grid-template-columns:1fr; } .toc { position:relative; top:auto; max-height:300px; } .meta { grid-template-columns:1fr; } }
+@media print { body { background:white; color:var(--paper-text); } .hero,.toc,footer { display:none!important; } .shell { width:auto; margin:0; } .layout { display:block; padding:0; } article { border:0; box-shadow:none; padding:0; background:white; color:var(--paper-text); } article p { color:var(--paper-text); } article h1:first-child { display:block; } code,pre { border:1px solid #ccc; color:#111; background:#f5f5f5; } }
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell">
+      <div class="brand">
+        <div class="logo-stack">
+          <div class="logo-by">A production</div>
+          <img src="netdtl_logo.png" alt="NetDTL">
+        </div>
+        <div>
+          <h1>DTLonCodex - User Guide</h1>
+          <p class="subtitle">User guide for OpenAI Codex software.</p>
+        </div>
+      </div>
+      <nav class="doc-links" aria-label="Document navigation">
+        <a href="index_En.html">Home</a>
+        <a href="OpenAI_Codex_Documentation_NetDTL.html">Complete documentation</a>
+        <a href="DTLonCodex_Reference_Manual.html">Reference manual</a>
+        <a href="DTLonCodex_Guide_utilisateur.html">French version</a>
+      </nav>
+      <div class="meta"><div class="meta-card"><strong>Tool</strong><span>DTLonCodex</span></div><div class="meta-card"><strong>Type</strong><span>OpenAI Codex user guide</span></div><div class="meta-card"><strong>Language</strong><span>English</span></div></div>
+    </div>
+  </header>
+  <main class="shell layout">
+    <nav class="toc" aria-label="Table of contents"><p class="toc-title">Table of Contents</p>
+<a class="toc-l2" href="#ug-preface">Preface</a>
+<a class="toc-l2" href="#ug-audience">Audience</a>
+<a class="toc-l2" href="#ug-structure">Document structure</a>
+<a class="toc-l2" href="#ug-conventions">Conventions</a>
+<a class="toc-l1" href="#ug-1-start">1. Getting started</a>
+<a class="toc-l2" href="#ug-1-1-choose-surface">1.1 Choose the surface to use</a>
+<a class="toc-l2" href="#ug-1-2-prepare-project">1.2 Prepare a project</a>
+<a class="toc-l2" href="#ug-1-3-write-request">1.3 Write a good request</a>
+<a class="toc-l1" href="#ug-2-app">2. Use the Codex App</a>
+<a class="toc-l2" href="#ug-2-1-install-open">2.1 Install and open</a>
+<a class="toc-l2" href="#ug-2-2-select-project">2.2 Select a project</a>
+<a class="toc-l2" href="#ug-2-3-thread-mode">2.3 Choose the thread mode</a>
+<a class="toc-l2" href="#ug-2-4-first-request">2.4 Send a first request</a>
+<a class="toc-l2" href="#ug-2-5-follow-work">2.5 Follow the work</a>
+<a class="toc-l2" href="#ug-2-6-terminal">2.6 Use the integrated terminal</a>
+<a class="toc-l2" href="#ug-2-7-diffs">2.7 Review Git differences</a>
+<a class="toc-l2" href="#ug-2-8-git">2.8 Commit, push, and pull request</a>
+<a class="toc-l2" href="#ug-2-9-browser">2.9 Use the integrated browser</a>
+<a class="toc-l2" href="#ug-2-10-images-artifacts">2.10 Use images and artifacts</a>
+<a class="toc-l1" href="#ug-3-cli">3. Use the CLI</a>
+<a class="toc-l2" href="#ug-3-1-interactive">3.1 Start an interactive session</a>
+<a class="toc-l2" href="#ug-3-2-interact">3.2 Interact during a session</a>
+<a class="toc-l2" href="#ug-3-3-resume">3.3 Resume a session</a>
+<a class="toc-l2" href="#ug-3-4-model">3.4 Launch with a specific model</a>
+<a class="toc-l2" href="#ug-3-5-non-interactive">3.5 Run in non-interactive mode</a>
+<a class="toc-l2" href="#ug-3-6-remote">3.6 Use remote mode</a>
+<a class="toc-l1" href="#ug-4-ide">4. Use the IDE extension</a>
+<a class="toc-l2" href="#ug-4-1-install">4.1 Install the extension</a>
+<a class="toc-l2" href="#ug-4-2-sign-in">4.2 Sign in</a>
+<a class="toc-l2" href="#ug-4-3-editor-context">4.3 Work with editor context</a>
+<a class="toc-l2" href="#ug-4-4-sync">4.4 Synchronize with the Codex App</a>
+<a class="toc-l1" href="#ug-5-web-cloud">5. Use Codex Web and Cloud</a>
+<a class="toc-l2" href="#ug-5-1-cloud-task">5.1 Choose a cloud task</a>
+<a class="toc-l2" href="#ug-5-2-configure">5.2 Configure the environment</a>
+<a class="toc-l2" href="#ug-5-3-results">5.3 Retrieve results</a>
+<a class="toc-l1" href="#ug-6-guide">6. Guide Codex</a>
+<a class="toc-l2" href="#ug-6-1-verifiable">6.1 Give short, verifiable instructions</a>
+<a class="toc-l2" href="#ug-6-2-scope">6.2 Frame changes</a>
+<a class="toc-l2" href="#ug-6-3-review">6.3 Request a review</a>
+<a class="toc-l2" href="#ug-6-4-prudent-fix">6.4 Request a careful fix</a>
+<a class="toc-l2" href="#ug-6-5-evidence">6.5 Provide expected evidence</a>
+<a class="toc-l1" href="#ug-7-verify">7. Verify and finalize</a>
+<a class="toc-l2" href="#ug-7-1-summary">7.1 Read the summary</a>
+<a class="toc-l2" href="#ug-7-2-diff">7.2 Check the diff</a>
+<a class="toc-l2" href="#ug-7-3-tests">7.3 Run tests</a>
+<a class="toc-l2" href="#ug-7-4-second-pass">7.4 Request a second pass</a>
+<a class="toc-l1" href="#ug-8-customize">8. Customize Codex</a>
+<a class="toc-l2" href="#ug-8-1-agents">8.1 Add an AGENTS.md file</a>
+<a class="toc-l2" href="#ug-8-2-update-agents">8.2 Update AGENTS.md after a recurring error</a>
+<a class="toc-l2" href="#ug-8-3-skill">8.3 Use a skill</a>
+<a class="toc-l2" href="#ug-8-4-mcp">8.4 Configure MCP</a>
+<a class="toc-l2" href="#ug-8-5-hooks">8.5 Use hooks</a>
+<a class="toc-l2" href="#ug-8-6-automations">8.6 Use automations</a>
+<a class="toc-l1" href="#ug-9-permissions">9. Permissions, sandboxing, and troubleshooting</a>
+<a class="toc-l2" href="#ug-9-1-approvals">9.1 Understand approvals</a>
+<a class="toc-l2" href="#ug-9-2-sandbox">9.2 Understand the sandbox</a>
+<a class="toc-l2" href="#ug-9-3-network">9.3 Manage network access</a>
+<a class="toc-l2" href="#ug-9-4-files">9.4 When Codex does not find the right files</a>
+<a class="toc-l2" href="#ug-9-5-too-many-changes">9.5 When Codex proposes too many changes</a>
+<a class="toc-l2" href="#ug-9-6-tests-fail">9.6 When tests fail</a>
+<a class="toc-l2" href="#ug-9-7-other-surface">9.7 When to use another surface</a>
+<a class="toc-l1" href="#ug-10-scenarios">10. Common scenarios</a>
+<a class="toc-l2" href="#ug-10-1-map-codebase">10.1 Understand an unfamiliar codebase</a>
+<a class="toc-l2" href="#ug-10-2-low-risk-bug">10.2 Fix a low-risk bug</a>
+<a class="toc-l2" href="#ug-10-3-small-feature">10.3 Add a small feature</a>
+<a class="toc-l2" href="#ug-10-4-pr-review">10.4 Review a pull request</a>
+<a class="toc-l2" href="#ug-10-5-web-ui">10.5 Work on a web interface</a>
+<a class="toc-l2" href="#ug-10-6-artifact">10.6 Produce a document or artifact</a>
+<a class="toc-l2" href="#ug-10-7-automation">10.7 Set up an automation</a>
+<a class="toc-l2" href="#ug-10-8-integration">10.8 Add an external integration</a>
+<a class="toc-l2" href="#ug-10-9-cleanup">10.9 Clean up after a task</a>
+<a class="toc-l2" href="#ug-10-10-durable-instruction">10.10 Write a durable instruction</a>
+<a class="toc-l1" href="#ug-sources">Sources</a></nav>
+    <section><article>
+<h1 id="ug-openai-codex-user-guide">OpenAI Codex - User Guide</h1>
+<p>French working version translated into English, based on the official OpenAI Codex documentation and the DEC/VSI documentation presentation.</p>
+<h2 id="ug-preface">Preface</h2>
+<p>This guide explains how to use OpenAI Codex to work on code, review changes, automate tasks, and use the App, CLI, IDE, and Web surfaces.</p>
+<p>It assumes the user has an authorized account or API key and that Codex is available in their plan or organization.</p>
+<h2 id="ug-audience">Audience</h2>
+<p>This guide is intended for users who want to launch Codex, choose a surface, assign a task, review changes, and configure the main customization and security mechanisms.</p>
+<h2 id="ug-structure">Document structure</h2>
+<p>This guide contains the following chapters:</p>
+<ul>
+<li>Chapter 1: getting started and choosing a surface.</li>
+<li>Chapter 2: using the Codex App.</li>
+<li>Chapter 3: using the CLI.</li>
+<li>Chapter 4: using the IDE extension.</li>
+<li>Chapter 5: using Codex Web and Cloud.</li>
+<li>Chapter 6: guiding Codex.</li>
+<li>Chapter 7: verifying and finalizing work.</li>
+<li>Chapter 8: customizing Codex.</li>
+<li>Chapter 9: permissions, sandboxing, and common troubleshooting.</li>
+<li>Chapter 10: common scenarios.</li>
+</ul>
+<h2 id="ug-conventions">Conventions</h2>
+<p>Commands are shown in monospace. Examples must be adapted to the project, shell, and local rules. Operations that modify files, execute commands, or access the network may require approval.</p>
+<h1 id="ug-1-start">1. Getting started</h1>
+<h2 id="ug-1-1-choose-surface">1.1 Choose the surface to use</h2>
+<p>Use the Codex App when you want to manage several projects, handle threads in parallel, work with worktrees, inspect diffs, and use integrated desktop functions.</p>
+<p>Use the CLI when you mainly work in a terminal or want to automate tasks.</p>
+<p>Use the IDE extension when you want Codex to naturally see editor context and work close to the files you have open.</p>
+<p>Use Codex Web or Cloud when you want to delegate work to a configured remote environment.</p>
+<h2 id="ug-1-2-prepare-project">1.2 Prepare a project</h2>
+<p>Before starting a task:</p>
+<ol>
+<li>Open the project folder.</li>
+<li>Check the Git state.</li>
+<li>Note important test or verification commands.</li>
+<li>Clearly describe the expected result.</li>
+<li>Specify limits: files not to touch, style to preserve, tests to run.</li>
+</ol>
+<p>It is prudent to create a Git checkpoint before a task that may modify code.</p>
+<h2 id="ug-1-3-write-request">1.3 Write a good request</h2>
+<p>An effective request includes the objective, useful context, constraints, affected files or areas, accepted risk level, and expected verification.</p>
+<p>Example:</p>
+<pre><code class="language-text">Find why the payment test fails and fix only the likely cause.
+Read the payment test and service files first.
+Keep changes minimal and run the relevant test.</code></pre>
+<h1 id="ug-2-app">2. Use the Codex App</h1>
+<h2 id="ug-2-1-install-open">2.1 Install and open</h2>
+<p>Install the Codex application for macOS or Windows from the official page. Open the application, then sign in with a ChatGPT account or an OpenAI API key.</p>
+<p>Some functions may vary depending on authentication mode, plan, and organization policies.</p>
+<h2 id="ug-2-2-select-project">2.2 Select a project</h2>
+<p>In the application, add or select the project folder. A project corresponds to a codebase or to a coherently bounded part of a codebase.</p>
+<p>If a repository contains several independent applications, create separate projects to keep the work perimeter clear.</p>
+<h2 id="ug-2-3-thread-mode">2.3 Choose the thread mode</h2>
+<p>When starting a thread, choose a mode:</p>
+<ul>
+<li>Local: Codex works in the current folder.</li>
+<li>Worktree: Codex creates a Git worktree to isolate changes.</li>
+<li>Cloud: Codex works in a configured remote environment.</li>
+</ul>
+<p>Choose Worktree to try an idea, run several tasks in parallel, or protect your current directory.</p>
+<h2 id="ug-2-4-first-request">2.4 Send a first request</h2>
+<p>In the composer, describe the task. For a first contact with a project, ask for an analysis:</p>
+<pre><code class="language-text">Explain the organization of this project and list useful commands for testing it.</code></pre>
+<p>For a targeted change:</p>
+<pre><code class="language-text">Add the missing validation to the sign-up form.
+Follow the existing style and run the relevant tests.</code></pre>
+<h2 id="ug-2-5-follow-work">2.5 Follow the work</h2>
+<p>During execution, watch the proposed plan, files read, requested commands, produced changes, error messages, and approval requests. Redirect Codex if the work moves outside the intended scope.</p>
+<h2 id="ug-2-6-terminal">2.6 Use the integrated terminal</h2>
+<p>Each thread has a terminal associated with the project or worktree. Use it to run verification commands:</p>
+<pre><code class="language-text">git status
+npm test
+pnpm run lint</code></pre>
+<p>Codex can read terminal output when the surface allows it. You can therefore ask it to analyze a test failure that is already visible.</p>
+<h2 id="ug-2-7-diffs">2.7 Review Git differences</h2>
+<p>Open the diff panel to see modified files. Check that the right files changed, that modifications are minimal, that tests or evidence are present, and that no sensitive data was added.</p>
+<p>Add inline comments if you want Codex to correct a specific line or section.</p>
+<h2 id="ug-2-8-git">2.8 Commit, push, and pull request</h2>
+<p>When changes are correct, use the integrated Git functions or the terminal to prepare the commit.</p>
+<p>Before pushing:</p>
+<ol>
+<li>Review the diff.</li>
+<li>Run the required tests.</li>
+<li>Check the commit message.</li>
+<li>Create the pull request if the project workflow requires it.</li>
+</ol>
+<h2 id="ug-2-9-browser">2.9 Use the integrated browser</h2>
+<p>To verify a local web application:</p>
+<ol>
+<li>Start the development server.</li>
+<li>Open the page in the integrated browser.</li>
+<li>Inspect the rendering.</li>
+<li>Add comments on visual elements to correct.</li>
+<li>Ask Codex to apply the corrections.</li>
+</ol>
+<p>The integrated browser does not replace a browser connected to your profile. It is not intended for complex authentication flows.</p>
+<h2 id="ug-2-10-images-artifacts">2.10 Use images and artifacts</h2>
+<p>Drag an image into the prompt to provide it as context. For documents, spreadsheets, presentations, or PDFs, specify the expected file type, structure, verification criteria, and desired output path if needed.</p>
+<h1 id="ug-3-cli">3. Use the CLI</h1>
+<h2 id="ug-3-1-interactive">3.1 Start an interactive session</h2>
+<p>From the project directory:</p>
+<pre><code class="language-text">codex</code></pre>
+<p>You can also provide an initial request:</p>
+<pre><code class="language-text">codex "Explain this codebase"</code></pre>
+<p>Codex opens an interactive terminal interface that can read the repository, propose a plan, modify files, and run commands depending on authorizations.</p>
+<h2 id="ug-3-2-interact">3.2 Interact during a session</h2>
+<p>During a CLI session, send prompts and code excerpts, review plans and diffs, accept or refuse controlled operations, use available slash commands, and exit the session when the work is complete.</p>
+<h2 id="ug-3-3-resume">3.3 Resume a session</h2>
+<p>To reopen a recent session:</p>
+<pre><code class="language-text">codex resume</code></pre>
+<p>To resume the latest session for the current directory:</p>
+<pre><code class="language-text">codex resume --last</code></pre>
+<p>To also list sessions from other directories:</p>
+<pre><code class="language-text">codex resume --all</code></pre>
+<p>Resumption preserves the transcript, plan history, and useful session context.</p>
+<h2 id="ug-3-4-model">3.4 Launch with a specific model</h2>
+<p>When you need to explicitly choose a model:</p>
+<pre><code class="language-text">codex --model gpt-5.5</code></pre>
+<p>Inside a session, use the model-switching command provided by the interface.</p>
+<h2 id="ug-3-5-non-interactive">3.5 Run in non-interactive mode</h2>
+<p>For automated workflows, use non-interactive mode when available:</p>
+<pre><code class="language-text">codex exec "Run the tests and summarize failures"</code></pre>
+<p>Non-interactive mode is suitable for bounded tasks. Provide a precise prompt and configure permissions before integrating it into an automated chain.</p>
+<h2 id="ug-3-6-remote">3.6 Use remote mode</h2>
+<p>An app server can expose a WebSocket connection. The CLI client can connect to it with a remote URL and configured authentication.</p>
+<p>Use an unencrypted connection only for <code>localhost</code> or a trusted tunnel. For a remote machine, provide authentication and TLS according to official rules.</p>
+<h1 id="ug-4-ide">4. Use the IDE extension</h1>
+<h2 id="ug-4-1-install">4.1 Install the extension</h2>
+<p>Install the Codex extension in the supported editor. Then open the Codex panel from the sidebar.</p>
+<h2 id="ug-4-2-sign-in">4.2 Sign in</h2>
+<p>Sign in with your ChatGPT account or an OpenAI API key. The extension starts in default agent mode when the configuration allows it.</p>
+<h2 id="ug-4-3-editor-context">4.3 Work with editor context</h2>
+<p>Open the relevant files before asking a question. You can ask:</p>
+<pre><code class="language-text">Explain the open file and identify risky functions.</code></pre>
+<p>Or:</p>
+<pre><code class="language-text">Fix the issue in the selected function without changing the public API.</code></pre>
+<h2 id="ug-4-4-sync">4.4 Synchronize with the Codex App</h2>
+<p>When the Codex App and IDE extension are open on the same project, they can synchronize context and threads. Use this synchronization to move between editor work and broader review in the application.</p>
+<h1 id="ug-5-web-cloud">5. Use Codex Web and Cloud</h1>
+<h2 id="ug-5-1-cloud-task">5.1 Choose a cloud task</h2>
+<p>Use Cloud for tasks that can run in a remote environment: repository analysis, isolated fixes, migration, test generation, review, or a long parallel task.</p>
+<p>Avoid sending a cloud task when the result depends on an unpushed local file, a local secret, or a tool unavailable in the environment.</p>
+<h2 id="ug-5-2-configure">5.2 Configure the environment</h2>
+<p>Before assigning a cloud task, check repository access, dependencies, test commands, network access, authorized variables and secrets, and organization policies.</p>
+<h2 id="ug-5-3-results">5.3 Retrieve results</h2>
+<p>Review the summary, modified files, logs, and tests run. Bring changes back into your Git workflow according to the project procedures.</p>
+<h1 id="ug-6-guide">6. Guide Codex</h1>
+<h2 id="ug-6-1-verifiable">6.1 Give short, verifiable instructions</h2>
+<p>Prefer:</p>
+<pre><code class="language-text">Add a test for the case where the amount is zero, then fix validation if the test fails.</code></pre>
+<p>Avoid overly broad requests without criteria:</p>
+<pre><code class="language-text">Improve the whole module.</code></pre>
+<h2 id="ug-6-2-scope">6.2 Frame changes</h2>
+<p>Clearly indicate authorized files, forbidden files, accepted refactoring level, required tests, and expected response format.</p>
+<h2 id="ug-6-3-review">6.3 Request a review</h2>
+<p>For a code review:</p>
+<pre><code class="language-text">Review this diff. Prioritize bugs, regressions, security risks, and missing tests.
+Do not modify files.</code></pre>
+<h2 id="ug-6-4-prudent-fix">6.4 Request a careful fix</h2>
+<p>For a fix:</p>
+<pre><code class="language-text">Find the most likely cause of the failure and fix it with the smallest reasonable change.
+Explain the modified files and tests run.</code></pre>
+<h2 id="ug-6-5-evidence">6.5 Provide expected evidence</h2>
+<p>Add the desired verification:</p>
+<pre><code class="language-text">Run the relevant unit test and report the exact result.
+If the test cannot be run, explain why.</code></pre>
+<h1 id="ug-7-verify">7. Verify and finalize</h1>
+<h2 id="ug-7-1-summary">7.1 Read the summary</h2>
+<p>At the end of a task, check that the summary answers the initial request: objective reached, modified files, tests run, limitations, and possible next steps.</p>
+<h2 id="ug-7-2-diff">7.2 Check the diff</h2>
+<p>Before validating:</p>
+<pre><code class="language-text">git status
+git diff</code></pre>
+<p>Make sure no unrelated file was modified.</p>
+<h2 id="ug-7-3-tests">7.3 Run tests</h2>
+<p>Run the tests recommended by Codex or by the project:</p>
+<pre><code class="language-text">npm test
+pnpm test
+pytest
+cargo test</code></pre>
+<p>Adapt these commands to your stack.</p>
+<h2 id="ug-7-4-second-pass">7.4 Request a second pass</h2>
+<p>If a detail is missing:</p>
+<pre><code class="language-text">The change is good, but add a test for edge case X and rerun only that test.</code></pre>
+<p>If the result is too broad:</p>
+<pre><code class="language-text">Return to a more minimal fix. Keep only the changes necessary for the reported bug.</code></pre>
+<h1 id="ug-8-customize">8. Customize Codex</h1>
+<h2 id="ug-8-1-agents">8.1 Add an AGENTS.md file</h2>
+<p>In the repository, create an <code>AGENTS.md</code> file for durable rules:</p>
+<pre><code class="language-markdown"># Instructions for Codex
+
+- Use pnpm, not npm.
+- Run `pnpm test` before proposing a commit.
+- Do not modify generated files in `dist/`.
+- For React components, follow the patterns in `src/components`.</code></pre>
+<p>Place a more specific <code>AGENTS.md</code> in a subdirectory if different rules apply to that area.</p>
+<h2 id="ug-8-2-update-agents">8.2 Update AGENTS.md after a recurring error</h2>
+<p>If Codex repeats a wrong assumption, ask it to formalize the correction:</p>
+<pre><code class="language-text">Add to AGENTS.md that database migrations must be created with the internal tool, not by hand.</code></pre>
+<h2 id="ug-8-3-skill">8.3 Use a skill</h2>
+<p>Use a skill when a workflow recurs often: release, review, documentation generation, data verification, or artifact creation.</p>
+<p>You can explicitly invoke a skill if its name is known:</p>
+<pre><code class="language-text">$skill_name Prepare the release note from the current diff.</code></pre>
+<h2 id="ug-8-4-mcp">8.4 Configure MCP</h2>
+<p>Use MCP when Codex must access external tools or data: tickets, internal docs, knowledge bases, repositories, design services, or other team systems.</p>
+<p>In the Codex App, open the MCP section of settings to enable a recommended server or add a configuration.</p>
+<h2 id="ug-8-5-hooks">8.5 Use hooks</h2>
+<p>Use hooks to automate checks around Codex actions, for example verifying a policy before a command or logging certain events.</p>
+<h2 id="ug-8-6-automations">8.6 Use automations</h2>
+<p>To create a recurring task, describe the frequency, project, request, expected result, and notification or summary channel.</p>
+<p>Example:</p>
+<pre><code class="language-text">Create a daily automation that checks recent test failures and produces a short report.</code></pre>
+<p>Use a thread automation when the recurrence must preserve the context of the current conversation.</p>
+<h1 id="ug-9-permissions">9. Permissions, sandboxing, and troubleshooting</h1>
+<h2 id="ug-9-1-approvals">9.1 Understand approvals</h2>
+<p>When Codex asks for approval, read the requested action, affected files or resources, authorization duration, and risk level.</p>
+<p>If you hesitate, grant the narrowest scope or refuse and ask for another approach.</p>
+<h2 id="ug-9-2-sandbox">9.2 Understand the sandbox</h2>
+<p>The sandbox limits Codex access. If a command fails because of insufficient access, choose between granting targeted permission, moving required files into the project, asking for a solution that does not need that access, or opening a more appropriate project.</p>
+<h2 id="ug-9-3-network">9.3 Manage network access</h2>
+<p>If Codex must verify recent information or install a dependency, it may need network access. Grant access only if the task justifies it and the project policy allows it.</p>
+<h2 id="ug-9-4-files">9.4 When Codex does not find the right files</h2>
+<p>Give a routing hint:</p>
+<pre><code class="language-text">Read `src/payments/` and `tests/payments/` first. Ignore `legacy/` unless necessary.</code></pre>
+<p>If this hint will be useful long term, add it to <code>AGENTS.md</code>.</p>
+<h2 id="ug-9-5-too-many-changes">9.5 When Codex proposes too many changes</h2>
+<p>Rephrase with an explicit constraint:</p>
+<pre><code class="language-text">Reduce the change to the minimum necessary. No refactoring outside the affected file.</code></pre>
+<h2 id="ug-9-6-tests-fail">9.6 When tests fail</h2>
+<p>Ask for a bounded analysis:</p>
+<pre><code class="language-text">Analyze this test failure. Do not modify anything before identifying the likely cause.</code></pre>
+<p>Then, if the cause is clear:</p>
+<pre><code class="language-text">Apply the minimal fix and rerun this test only.</code></pre>
+<h2 id="ug-9-7-other-surface">9.7 When to use another surface</h2>
+<p>Move to the IDE if the main context is an open file or selection. Move to the Codex App if you need to manage threads, worktrees, diffs, and artifacts. Move to the CLI if the work is terminal-first or scriptable. Move to Cloud if the task must be delegated remotely.</p>
+<h1 id="ug-10-scenarios">10. Common scenarios</h1>
+<h2 id="ug-10-1-map-codebase">10.1 Understand an unfamiliar codebase</h2>
+<p>First ask for a map before any modification:</p>
+<pre><code class="language-text">Explain the organization of this project. Identify the main modules, verification commands, and files to read before modifying code.
+Do not modify anything.</code></pre>
+<p>If the project is large, bound the search:</p>
+<pre><code class="language-text">Focus on the authentication flow. Read relevant files and summarize the end-to-end flow.</code></pre>
+<p>When the synthesis is correct, ask Codex to propose durable guidance:</p>
+<pre><code class="language-text">Propose a short AGENTS.md section to help future sessions find the right authentication files.</code></pre>
+<h2 id="ug-10-2-low-risk-bug">10.2 Fix a low-risk bug</h2>
+<p>Start with reproduction:</p>
+<pre><code class="language-text">Reproduce or locate the reported failure. Do not fix anything before identifying the likely cause and affected files.</code></pre>
+<p>Then ask for the fix:</p>
+<pre><code class="language-text">Apply the minimal fix for this likely cause. Avoid any unnecessary refactoring. Run the most targeted test.</code></pre>
+<p>Finish with verification:</p>
+<pre><code class="language-text">Summarize the change, the test run, and remaining risks.</code></pre>
+<h2 id="ug-10-3-small-feature">10.3 Add a small feature</h2>
+<p>Provide the definition of done:</p>
+<pre><code class="language-text">Add the "archives" filter to the folder list.
+The filter must be visible in the interface, persist in the URL, and be covered by a test.
+Follow existing patterns.</code></pre>
+<p>If Codex proposes an architecture that is too broad:</p>
+<pre><code class="language-text">Keep the implementation local to this module. Do not create a new abstraction unless it already exists in the project.</code></pre>
+<h2 id="ug-10-4-pr-review">10.4 Review a pull request</h2>
+<p>In a surface that can see the diff, ask:</p>
+<pre><code class="language-text">Review this diff as a senior reviewer.
+List likely bugs or regressions first, with file and line.
+Then mention missing tests.
+Do not comment on style unless it hides a risk.</code></pre>
+<p>To turn the review into fixes:</p>
+<pre><code class="language-text">Fix only the P1 and P2 review points. Leave the rest untouched.</code></pre>
+<h2 id="ug-10-5-web-ui">10.5 Work on a web interface</h2>
+<p>Start the local server, then ask Codex to verify:</p>
+<pre><code class="language-text">Open the local application in the integrated browser, check the login page, and fix visible layout issues.
+Test desktop and mobile if possible.</code></pre>
+<p>Add comments in the integrated browser if a specific visual element must be corrected, then ask:</p>
+<pre><code class="language-text">Process the browser comments and verify the rendering again.</code></pre>
+<h2 id="ug-10-6-artifact">10.6 Produce a document or artifact</h2>
+<p>Give the expected form:</p>
+<pre><code class="language-text">Create a Markdown reference document for this module.
+Structure: preface, audience, concepts, API, errors, examples.
+Document only behavior present in the code.</code></pre>
+<p>For an office artifact:</p>
+<pre><code class="language-text">Create an 8-slide presentation from these notes.
+Add a summary slide, a risks slide, and a next steps slide.
+Verify the rendering before giving me the file.</code></pre>
+<h2 id="ug-10-7-automation">10.7 Set up an automation</h2>
+<p>Describe the recurrence and expected result:</p>
+<pre><code class="language-text">Create a weekly automation for this project.
+Every Monday morning, it must check outdated dependencies, summarize important updates, and not modify any files.</code></pre>
+<p>For follow-up in the same thread:</p>
+<pre><code class="language-text">Add a thread automation that reminds me every 30 minutes until the deployment is complete.</code></pre>
+<h2 id="ug-10-8-integration">10.8 Add an external integration</h2>
+<p>When information lives outside the repository, prefer MCP or a plugin:</p>
+<pre><code class="language-text">Configure or use the appropriate connector to read the Linear ticket linked to this branch, then summarize the acceptance criteria.</code></pre>
+<p>If the tool is not available:</p>
+<pre><code class="language-text">Indicate which integration is missing, which permissions would be required, and what information I can provide manually.</code></pre>
+<h2 id="ug-10-9-cleanup">10.9 Clean up after a task</h2>
+<p>Before closing:</p>
+<pre><code class="language-text">Check Git state, list modified files, and indicate the test commands run.
+Flag any file unrelated to the task.</code></pre>
+<p>If changes must be separated:</p>
+<pre><code class="language-text">Propose a logical commit split. Do not stage anything without confirmation.</code></pre>
+<h2 id="ug-10-10-durable-instruction">10.10 Write a durable instruction</h2>
+<p>After several course corrections, ask:</p>
+<pre><code class="language-text">Turn my recurring corrections into short AGENTS.md instructions, without duplicating what already exists.</code></pre>
+<p>Review the proposal before accepting it. Durable instructions should remain small, specific, and useful to future sessions.</p>
+<h1 id="ug-sources">Sources</h1>
+<ul>
+<li>OpenAI Developers, Codex Overview, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex Quickstart, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex app features, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex CLI features, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex customization, consulted June 12, 2026.</li>
+<li>OpenAI Developers, Codex documentation related to sandboxing, configuration, MCP, skills, and automation, consulted June 12, 2026.</li>
+</ul></article></section>
+  </main>
+  <footer><div class="shell">Sources: official OpenAI Developers Codex documentation and DEC/VSI PDF templates provided in the project.</div></footer>
+</body>
+</html>
