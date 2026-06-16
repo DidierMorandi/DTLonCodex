@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI Codex - Documentation NetDTL</title>
+  <style>
+    :root {
+      --bg: #0b0d0f; --panel: #131619; --panel-alt: #1a1e23; --text: #e8eaed; --muted: #9aa4b2;
+      --blue: #0616b8; --blue2: #0b35ff; --green: #00ff2f; --warning: #ffbf00;
+      --border: rgba(255,255,255,0.12); --shadow: 0 22px 70px rgba(0,0,0,0.36); --paper-text: #14181f;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: radial-gradient(circle at 12% 0%, rgba(11,53,255,0.26), transparent 34rem), linear-gradient(180deg, #080a0d 0%, var(--bg) 38%, #090b0f 100%); color: var(--text); font-family: "Segoe UI", Arial, sans-serif; line-height: 1.65; }
+    a { color: inherit; }
+    .shell { width: min(1320px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 32px 0 22px; border-bottom: 1px solid var(--border); }
+    .brand { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .brand img { width: 268px; max-width: min(60vw, 268px); }
+    .kicker { color: var(--green); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .78rem; }
+    h1 { margin: 8px 0 8px; font-size: clamp(2rem, 5vw, 4.2rem); line-height: .98; letter-spacing: 0; }
+    .subtitle { max-width: 780px; color: var(--muted); font-size: 1.08rem; margin: 0; }
+    .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 24px; }
+    .tabs { display: inline-flex; padding: 4px; border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,.04); }
+    button { font: inherit; }
+    .tab { border: 0; color: var(--muted); background: transparent; padding: 9px 14px; border-radius: 6px; cursor: pointer; }
+    .tab.active { color: white; background: linear-gradient(135deg, var(--blue), var(--blue2)); box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset; }
+    .search { min-width: min(420px, 100%); flex: 1; max-width: 520px; }
+    .search input { width: 100%; border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,.06); color: var(--text); padding: 11px 14px; outline: none; }
+    .search input:focus { border-color: rgba(0,255,47,.55); box-shadow: 0 0 0 3px rgba(0,255,47,.12); }
+    .layout { display: grid; grid-template-columns: 300px 1fr; gap: 22px; padding: 24px 0 56px; }
+    .toc { position: sticky; top: 14px; align-self: start; max-height: calc(100vh - 28px); overflow: auto; padding: 18px; border: 1px solid var(--border); border-radius: 8px; background: rgba(19,22,25,.86); box-shadow: var(--shadow); backdrop-filter: blur(10px); }
+    .toc-title { margin: 0 0 12px; color: white; font-weight: 700; }
+    .toc a { display: block; text-decoration: none; color: var(--muted); padding: 5px 0; border-left: 2px solid transparent; }
+    .toc a:hover { color: white; border-left-color: var(--green); padding-left: 8px; }
+    .toc-l1 { font-weight: 700; color: #dce5ff !important; margin-top: 8px; }
+    .toc-l2 { padding-left: 10px !important; }
+    .toc-l3 { padding-left: 22px !important; font-size: .92rem; }
+    .doc { display: none; }
+    .doc.active { display: block; }
+    article { border: 1px solid var(--border); border-radius: 8px; background: linear-gradient(180deg, rgba(26,30,35,.96), rgba(13,15,18,.96)); box-shadow: var(--shadow); padding: clamp(22px, 4vw, 44px); }
+    article h1:first-child { display: none; }
+    article h1 { margin: 34px 0 14px; padding-top: 16px; border-top: 1px solid var(--border); font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    article h2 { margin: 28px 0 10px; font-size: 1.35rem; color: #fff; }
+    article h3 { margin: 22px 0 8px; font-size: 1.04rem; color: #fff; }
+    article p { margin: 0 0 13px; color: #d8dde6; }
+    article ul, article ol { margin: 8px 0 16px; padding-left: 1.4rem; }
+    article li { margin: 5px 0; }
+    code { background: rgba(0,255,47,.08); border: 1px solid rgba(0,255,47,.22); color: #baffc5; border-radius: 5px; padding: .08rem .28rem; }
+    pre { margin: 16px 0 20px; padding: 16px; overflow: auto; background: #07090c; border: 1px solid rgba(78,158,255,.22); border-radius: 8px; }
+    pre code { border: 0; background: transparent; color: #d9fbe0; padding: 0; }
+    .meta { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 24px; }
+    .meta-card { border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,.04); padding: 14px; }
+    .meta-card strong { display: block; color: var(--green); font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; }
+    .meta-card span { color: #fff; }
+    .no-results { display: none; margin: 0 0 18px; padding: 14px; border: 1px solid rgba(255,191,0,.35); border-radius: 8px; background: rgba(255,191,0,.08); color: #ffe1a1; }
+    mark { background: rgba(0,255,47,.24); color: white; padding: 0 .1em; border-radius: 3px; }
+    footer { border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--muted); }
+    @media (max-width: 940px) { .layout { grid-template-columns: 1fr; } .toc { position: relative; top: auto; max-height: 300px; } .meta { grid-template-columns: 1fr; } }
+    @media print { body { background: white; color: var(--paper-text); } .hero, .toc, .toolbar, footer { display: none !important; } .shell { width: auto; margin: 0; } .layout { display: block; padding: 0; } article { display: block !important; border: 0; box-shadow: none; padding: 0; background: white; color: var(--paper-text); } article p { color: var(--paper-text); } article h1:first-child { display: block; } .doc { display: block !important; page-break-after: always; } code, pre { border: 1px solid #ccc; color: #111; background: #f5f5f5; } }
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell">
+      <div class="brand">
+        <img src="netdtl_logo.png" alt="NetDTL">
+        <div>
+          <div class="kicker">Documentation francaise</div>
+          <h1>OpenAI Codex</h1>
+          <p class="subtitle">Manuel de reference et guide utilisateur, presentes dans un esprit DEC/VSI avec la charte graphique NetDTL.</p>
+        </div>
+      </div>
+      <div class="toolbar" role="region" aria-label="Navigation documentaire">
+        <div class="tabs" role="tablist" aria-label="Choix du manuel">
+          <button class="tab active" role="tab" aria-selected="true" data-target="ref">Ref Man</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="ug">User Guide</button>
+        </div>
+        <label class="search" aria-label="Recherche dans le document actif"><input id="search" type="search" placeholder="Rechercher dans le document actif..."></label>
+      </div>
+      <div class="meta">
+        <div class="meta-card"><strong>Produit</strong><span>OpenAI Codex</span></div>
+        <div class="meta-card"><strong>Style</strong><span>DEC/VSI, NetDTL</span></div>
+        <div class="meta-card"><strong>Date</strong><span>12/06/2026</span></div>
+      </div>
+    </div>
+  </header>
+  <main class="shell layout">
+    <nav class="toc" aria-label="Sommaire">
+      <p class="toc-title">Sommaire</p>
+      <div class="toc-set active" data-doc="ref"><a class="toc-l2" data-doc="ref" href="#ref-preface">Preface</a>
+<a class="toc-l2" data-doc="ref" href="#ref-public-vise">Public vise</a>
+<a class="toc-l2" data-doc="ref" href="#ref-structure-du-document">Structure du document</a>
+<a class="toc-l2" data-doc="ref" href="#ref-documents-associes">Documents associes</a>
+<a class="toc-l2" data-doc="ref" href="#ref-conventions">Conventions</a>
+<a class="toc-l1" data-doc="ref" href="#ref-1-vue-d-ensemble-fonctionnelle">1. Vue d&#x27;ensemble fonctionnelle</a>
+<a class="toc-l1" data-doc="ref" href="#ref-2-surfaces-d-execution">2. Surfaces d&#x27;execution</a>
+<a class="toc-l2" data-doc="ref" href="#ref-2-1-codex-app">2.1 Codex App</a>
+<a class="toc-l2" data-doc="ref" href="#ref-2-2-codex-cli">2.2 Codex CLI</a>
+<a class="toc-l2" data-doc="ref" href="#ref-2-3-extension-ide">2.3 Extension IDE</a>
+<a class="toc-l2" data-doc="ref" href="#ref-2-4-codex-web-et-cloud">2.4 Codex Web et Cloud</a>
+<a class="toc-l2" data-doc="ref" href="#ref-2-5-modes-local-worktree-et-cloud">2.5 Modes Local, Worktree et Cloud</a>
+<a class="toc-l1" data-doc="ref" href="#ref-3-modeles-raisonnement-et-contexte">3. Modeles, raisonnement et contexte</a>
+<a class="toc-l2" data-doc="ref" href="#ref-3-1-modeles">3.1 Modeles</a>
+<a class="toc-l2" data-doc="ref" href="#ref-3-2-raisonnement">3.2 Raisonnement</a>
+<a class="toc-l2" data-doc="ref" href="#ref-3-3-contexte-de-conversation">3.3 Contexte de conversation</a>
+<a class="toc-l2" data-doc="ref" href="#ref-3-4-memoires">3.4 Memoires</a>
+<a class="toc-l1" data-doc="ref" href="#ref-4-outils-et-operations-sur-le-code">4. Outils et operations sur le code</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-1-lecture-et-modification-de-fichiers">4.1 Lecture et modification de fichiers</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-2-execution-de-commandes">4.2 Execution de commandes</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-3-revue-de-code">4.3 Revue de code</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-4-git">4.4 Git</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-5-terminal-integre">4.5 Terminal integre</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-6-navigateur-integre-et-browser-use">4.6 Navigateur integre et Browser Use</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-7-computer-use">4.7 Computer Use</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-8-entrees-image-et-generation-d-images">4.8 Entrees image et generation d&#x27;images</a>
+<a class="toc-l2" data-doc="ref" href="#ref-4-9-artefacts-non-code">4.9 Artefacts non-code</a>
+<a class="toc-l1" data-doc="ref" href="#ref-5-personnalisation">5. Personnalisation</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-1-agents-md">5.1 AGENTS.md</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-2-configuration">5.2 Configuration</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-3-skills">5.3 Skills</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-4-plugins">5.4 Plugins</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-5-mcp">5.5 MCP</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-6-hooks">5.6 Hooks</a>
+<a class="toc-l2" data-doc="ref" href="#ref-5-7-subagents">5.7 Subagents</a>
+<a class="toc-l1" data-doc="ref" href="#ref-6-securite-bac-a-sable-et-approbations">6. Securite, bac a sable et approbations</a>
+<a class="toc-l2" data-doc="ref" href="#ref-6-1-bac-a-sable">6.1 Bac a sable</a>
+<a class="toc-l2" data-doc="ref" href="#ref-6-2-approbations">6.2 Approbations</a>
+<a class="toc-l2" data-doc="ref" href="#ref-6-3-permissions">6.3 Permissions</a>
+<a class="toc-l2" data-doc="ref" href="#ref-6-4-reseau">6.4 Reseau</a>
+<a class="toc-l1" data-doc="ref" href="#ref-7-automatisation-et-integrations">7. Automatisation et integrations</a>
+<a class="toc-l2" data-doc="ref" href="#ref-7-1-automations">7.1 Automations</a>
+<a class="toc-l2" data-doc="ref" href="#ref-7-2-mode-non-interactif">7.2 Mode non interactif</a>
+<a class="toc-l2" data-doc="ref" href="#ref-7-3-codex-sdk">7.3 Codex SDK</a>
+<a class="toc-l2" data-doc="ref" href="#ref-7-4-app-server-et-mode-distant">7.4 App Server et mode distant</a>
+<a class="toc-l2" data-doc="ref" href="#ref-7-5-integrations-github-slack-et-linear">7.5 Integrations GitHub, Slack et Linear</a>
+<a class="toc-l1" data-doc="ref" href="#ref-8-objets-de-reference">8. Objets de reference</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-1-projet">8.1 Projet</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-2-fil">8.2 Fil</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-3-worktree">8.3 Worktree</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-4-chat">8.4 Chat</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-5-skill">8.5 Skill</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-6-plugin">8.6 Plugin</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-7-mcp-server">8.7 MCP server</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-8-hook">8.8 Hook</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-9-automation">8.9 Automation</a>
+<a class="toc-l2" data-doc="ref" href="#ref-8-10-bac-a-sable">8.10 Bac a sable</a>
+<a class="toc-l1" data-doc="ref" href="#ref-9-entrees-de-commande-et-de-configuration">9. Entrees de commande et de configuration</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-1-commande-codex">9.1 Commande <code>codex</code></a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-2-sous-commande-resume">9.2 Sous-commande <code>resume</code></a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-3-sous-commande-exec">9.3 Sous-commande <code>exec</code></a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-4-sous-commandes-serveur">9.4 Sous-commandes serveur</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-5-commandes-slash">9.5 Commandes slash</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-6-fichier-agents-md">9.6 Fichier <code>AGENTS.md</code></a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-7-fichier-de-configuration">9.7 Fichier de configuration</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-8-variables-d-environnement">9.8 Variables d&#x27;environnement</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-9-regles-et-hooks">9.9 Regles et hooks</a>
+<a class="toc-l2" data-doc="ref" href="#ref-9-10-profils-de-permissions">9.10 Profils de permissions</a>
+<a class="toc-l1" data-doc="ref" href="#ref-10-matrice-fonctionnelle">10. Matrice fonctionnelle</a>
+<a class="toc-l2" data-doc="ref" href="#ref-10-1-fonctions-par-surface">10.1 Fonctions par surface</a>
+<a class="toc-l2" data-doc="ref" href="#ref-10-2-fonctions-par-type-de-tache">10.2 Fonctions par type de tache</a>
+<a class="toc-l2" data-doc="ref" href="#ref-10-3-relations-entre-mecanismes">10.3 Relations entre mecanismes</a>
+<a class="toc-l1" data-doc="ref" href="#ref-sources">Sources</a></div>
+      <div class="toc-set" data-doc="ug" style="display:none"><a class="toc-l2" data-doc="ug" href="#ug-preface">Preface</a>
+<a class="toc-l2" data-doc="ug" href="#ug-public-vise">Public vise</a>
+<a class="toc-l2" data-doc="ug" href="#ug-structure-du-document">Structure du document</a>
+<a class="toc-l2" data-doc="ug" href="#ug-conventions">Conventions</a>
+<a class="toc-l1" data-doc="ug" href="#ug-1-demarrer">1. Demarrer</a>
+<a class="toc-l2" data-doc="ug" href="#ug-1-1-choisir-la-surface-a-utiliser">1.1 Choisir la surface a utiliser</a>
+<a class="toc-l2" data-doc="ug" href="#ug-1-2-preparer-un-projet">1.2 Preparer un projet</a>
+<a class="toc-l2" data-doc="ug" href="#ug-1-3-rediger-une-bonne-demande">1.3 Rediger une bonne demande</a>
+<a class="toc-l1" data-doc="ug" href="#ug-2-utiliser-la-codex-app">2. Utiliser la Codex App</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-1-installer-et-ouvrir">2.1 Installer et ouvrir</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-2-selectionner-un-projet">2.2 Selectionner un projet</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-3-choisir-le-mode-du-fil">2.3 Choisir le mode du fil</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-4-envoyer-une-premiere-demande">2.4 Envoyer une premiere demande</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-5-suivre-le-travail">2.5 Suivre le travail</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-6-utiliser-le-terminal-integre">2.6 Utiliser le terminal integre</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-7-examiner-les-differences-git">2.7 Examiner les differences Git</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-8-commit-push-et-pull-request">2.8 Commit, push et pull request</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-9-utiliser-le-navigateur-integre">2.9 Utiliser le navigateur integre</a>
+<a class="toc-l2" data-doc="ug" href="#ug-2-10-utiliser-des-images-et-artefacts">2.10 Utiliser des images et artefacts</a>
+<a class="toc-l1" data-doc="ug" href="#ug-3-utiliser-le-cli">3. Utiliser le CLI</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-1-lancer-une-session-interactive">3.1 Lancer une session interactive</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-2-interagir-pendant-une-session">3.2 Interagir pendant une session</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-3-reprendre-une-session">3.3 Reprendre une session</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-4-lancer-avec-un-modele-particulier">3.4 Lancer avec un modele particulier</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-5-executer-en-mode-non-interactif">3.5 Executer en mode non interactif</a>
+<a class="toc-l2" data-doc="ug" href="#ug-3-6-utiliser-le-mode-distant">3.6 Utiliser le mode distant</a>
+<a class="toc-l1" data-doc="ug" href="#ug-4-utiliser-l-extension-ide">4. Utiliser l&#x27;extension IDE</a>
+<a class="toc-l2" data-doc="ug" href="#ug-4-1-installer-l-extension">4.1 Installer l&#x27;extension</a>
+<a class="toc-l2" data-doc="ug" href="#ug-4-2-se-connecter">4.2 Se connecter</a>
+<a class="toc-l2" data-doc="ug" href="#ug-4-3-travailler-avec-le-contexte-de-l-editeur">4.3 Travailler avec le contexte de l&#x27;editeur</a>
+<a class="toc-l2" data-doc="ug" href="#ug-4-4-synchroniser-avec-la-codex-app">4.4 Synchroniser avec la Codex App</a>
+<a class="toc-l1" data-doc="ug" href="#ug-5-utiliser-codex-web-et-cloud">5. Utiliser Codex Web et Cloud</a>
+<a class="toc-l2" data-doc="ug" href="#ug-5-1-choisir-une-tache-cloud">5.1 Choisir une tache cloud</a>
+<a class="toc-l2" data-doc="ug" href="#ug-5-2-configurer-l-environnement">5.2 Configurer l&#x27;environnement</a>
+<a class="toc-l2" data-doc="ug" href="#ug-5-3-recuperer-les-resultats">5.3 Recuperer les resultats</a>
+<a class="toc-l1" data-doc="ug" href="#ug-6-guider-codex">6. Guider Codex</a>
+<a class="toc-l2" data-doc="ug" href="#ug-6-1-donner-des-instructions-courtes-et-verifiables">6.1 Donner des instructions courtes et verifiables</a>
+<a class="toc-l2" data-doc="ug" href="#ug-6-2-encadrer-les-changements">6.2 Encadrer les changements</a>
+<a class="toc-l2" data-doc="ug" href="#ug-6-3-demander-une-revue">6.3 Demander une revue</a>
+<a class="toc-l2" data-doc="ug" href="#ug-6-4-demander-une-correction-prudente">6.4 Demander une correction prudente</a>
+<a class="toc-l2" data-doc="ug" href="#ug-6-5-fournir-des-preuves-attendues">6.5 Fournir des preuves attendues</a>
+<a class="toc-l1" data-doc="ug" href="#ug-7-verifier-et-finaliser">7. Verifier et finaliser</a>
+<a class="toc-l2" data-doc="ug" href="#ug-7-1-lire-le-resume">7.1 Lire le resume</a>
+<a class="toc-l2" data-doc="ug" href="#ug-7-2-controler-le-diff">7.2 Controler le diff</a>
+<a class="toc-l2" data-doc="ug" href="#ug-7-3-lancer-les-tests">7.3 Lancer les tests</a>
+<a class="toc-l2" data-doc="ug" href="#ug-7-4-demander-une-deuxieme-passe">7.4 Demander une deuxieme passe</a>
+<a class="toc-l1" data-doc="ug" href="#ug-8-personnaliser-codex">8. Personnaliser Codex</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-1-ajouter-un-fichier-agents-md">8.1 Ajouter un fichier AGENTS.md</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-2-mettre-a-jour-agents-md-apres-une-erreur-recurrente">8.2 Mettre a jour AGENTS.md apres une erreur recurrente</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-3-utiliser-une-skill">8.3 Utiliser une skill</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-4-configurer-mcp">8.4 Configurer MCP</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-5-utiliser-les-hooks">8.5 Utiliser les hooks</a>
+<a class="toc-l2" data-doc="ug" href="#ug-8-6-utiliser-les-automations">8.6 Utiliser les automations</a>
+<a class="toc-l1" data-doc="ug" href="#ug-9-permissions-bac-a-sable-et-depannage">9. Permissions, bac a sable et depannage</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-1-comprendre-les-approbations">9.1 Comprendre les approbations</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-2-comprendre-le-bac-a-sable">9.2 Comprendre le bac a sable</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-3-gerer-l-acces-reseau">9.3 Gerer l&#x27;acces reseau</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-4-quand-codex-ne-trouve-pas-les-bons-fichiers">9.4 Quand Codex ne trouve pas les bons fichiers</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-5-quand-codex-propose-trop-de-changements">9.5 Quand Codex propose trop de changements</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-6-quand-les-tests-echouent">9.6 Quand les tests echouent</a>
+<a class="toc-l2" data-doc="ug" href="#ug-9-7-quand-utiliser-une-autre-surface">9.7 Quand utiliser une autre surface</a>
+<a class="toc-l1" data-doc="ug" href="#ug-10-scenarios-courants">10. Scenarios courants</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-1-comprendre-une-base-de-code-inconnue">10.1 Comprendre une base de code inconnue</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-2-corriger-un-bug-avec-risque-faible">10.2 Corriger un bug avec risque faible</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-3-ajouter-une-petite-fonctionnalite">10.3 Ajouter une petite fonctionnalite</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-4-faire-une-revue-de-pull-request">10.4 Faire une revue de pull request</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-5-travailler-sur-une-interface-web">10.5 Travailler sur une interface web</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-6-produire-un-document-ou-artefact">10.6 Produire un document ou artefact</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-7-mettre-en-place-une-automation">10.7 Mettre en place une automation</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-8-ajouter-une-integration-externe">10.8 Ajouter une integration externe</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-9-nettoyer-apres-une-tache">10.9 Nettoyer apres une tache</a>
+<a class="toc-l2" data-doc="ug" href="#ug-10-10-ecrire-une-instruction-durable">10.10 Ecrire une instruction durable</a>
+<a class="toc-l1" data-doc="ug" href="#ug-sources">Sources</a></div>
+    </nav>
+    <section>
+      <p class="no-results" id="noResults">Aucun resultat dans le document actif.</p>
+      <article id="ref" class="doc active"><h1 id="ref-openai-codex-manuel-de-reference">OpenAI Codex - Manuel de reference</h1>
+<p>Version de travail francaise, d&#x27;apres la documentation officielle OpenAI Codex et la presentation documentaire DEC/VSI.</p>
+<h2 id="ref-preface">Preface</h2>
+<p>Ce manuel de reference decrit les fonctions d&#x27;OpenAI Codex. Il ne constitue pas un guide d&#x27;utilisation pas a pas. Les commandes, menus et fichiers sont mentionnes uniquement pour identifier les fonctions qu&#x27;ils exposent.</p>
+<p>Codex est l&#x27;agent de developpement logiciel d&#x27;OpenAI. Il assiste les activites de programmation, d&#x27;analyse de code, de revue, de correction d&#x27;anomalies, de migration, de documentation, de tests et d&#x27;automatisation de travaux de developpement.</p>
+<h2 id="ref-public-vise">Public vise</h2>
+<p>Ce manuel s&#x27;adresse aux developpeurs, mainteneurs, responsables techniques, equipes de revue et administrateurs qui doivent connaitre les fonctions disponibles dans Codex et les limites de chaque surface d&#x27;execution.</p>
+<h2 id="ref-structure-du-document">Structure du document</h2>
+<p>Ce manuel contient les chapitres suivants :</p>
+<ul>
+<li>Chapitre 1 : presentation fonctionnelle de Codex.</li>
+<li>Chapitre 2 : surfaces d&#x27;execution.</li>
+<li>Chapitre 3 : modeles, raisonnement et contexte.</li>
+<li>Chapitre 4 : outils et operations sur le code.</li>
+<li>Chapitre 5 : personnalisation.</li>
+<li>Chapitre 6 : securite, bac a sable et approbations.</li>
+<li>Chapitre 7 : automatisation et integrations.</li>
+<li>Chapitre 8 : objets de reference.</li>
+<li>Chapitre 9 : entrees de commande et de configuration.</li>
+<li>Chapitre 10 : matrice fonctionnelle.</li>
+</ul>
+<h2 id="ref-documents-associes">Documents associes</h2>
+<p>Les sources officielles principales sont les pages OpenAI Developers suivantes : Codex Overview, Codex Quickstart, Codex app features, Codex CLI features, Codex customization, ainsi que les pages relatives a la configuration, aux permissions, au bac a sable, a MCP, aux skills, aux hooks, aux plugins, aux subagents et aux automations.</p>
+<h2 id="ref-conventions">Conventions</h2>
+<p>Les noms de fichiers, options, commandes, variables et identifiants sont indiques en chasse fixe. Les termes App, CLI, IDE Extension, Web, Local, Worktree et Cloud designent les surfaces et modes Codex officiels.</p>
+<h1 id="ref-1-vue-d-ensemble-fonctionnelle">1. Vue d&#x27;ensemble fonctionnelle</h1>
+<p>Codex fournit un agent interactif capable de lire un espace de travail, raisonner sur son contenu, proposer un plan, modifier des fichiers, executer des commandes, verifier des resultats et rendre compte de son travail.</p>
+<p>Les fonctions principales comprennent :</p>
+<ul>
+<li>generation et modification de code ;</li>
+<li>comprehension et explication de bases de code ;</li>
+<li>revue de changements ;</li>
+<li>diagnostic et correction d&#x27;erreurs ;</li>
+<li>execution de commandes locales ou distantes selon la surface ;</li>
+<li>production et verification d&#x27;artefacts ;</li>
+<li>gestion de taches paralleles ;</li>
+<li>interaction avec des outils externes ;</li>
+<li>automatisation de taches recurrentes.</li>
+</ul>
+<p>Codex applique les instructions du fil de discussion, les consignes de projet, les regles de configuration et les contraintes de securite disponibles dans l&#x27;environnement actif.</p>
+<h1 id="ref-2-surfaces-d-execution">2. Surfaces d&#x27;execution</h1>
+<h2 id="ref-2-1-codex-app">2.1 Codex App</h2>
+<p>La Codex App est une application de bureau pour macOS et Windows. Elle fournit une experience centree sur les fils Codex, les projets, les worktrees, les automatisations et les fonctions Git integrees.</p>
+<p>Elle comprend notamment une liste de projets, des fils de discussion par projet, des modes Local, Worktree et Cloud, un terminal integre par fil, un panneau de differences Git, des fonctions Git courantes, un navigateur integre, la prise en charge des artefacts et la prise en charge des skills, MCP, notifications, memoires et automatisations.</p>
+<h2 id="ref-2-2-codex-cli">2.2 Codex CLI</h2>
+<p>Le client CLI fournit une interface terminale plein ecran et des sous-commandes non interactives. Il permet de travailler depuis un repertoire local, de reprendre des sessions et d&#x27;executer Codex dans des workflows automatises.</p>
+<p>Les fonctions CLI comprennent le mode interactif conversationnel, le lancement avec prompt initial, la reprise de sessions precedentes, la selection de modele, l&#x27;affichage et la copie de sorties, l&#x27;historique de prompts, l&#x27;execution non interactive, le serveur d&#x27;application et le mode distant.</p>
+<h2 id="ref-2-3-extension-ide">2.3 Extension IDE</h2>
+<p>L&#x27;extension IDE place Codex dans l&#x27;editeur. Elle fournit un contexte issu des fichiers ouverts et permet d&#x27;executer des taches directement depuis le projet de l&#x27;editeur.</p>
+<p>Elle prend en charge le mode agent par defaut, la lecture et la modification dans le repertoire du projet, la synchronisation avec la Codex App lorsque les deux surfaces sont ouvertes sur le meme projet, les commandes IDE, les commandes slash et le contexte automatique des fichiers consultes.</p>
+<h2 id="ref-2-4-codex-web-et-cloud">2.4 Codex Web et Cloud</h2>
+<p>La surface Web permet d&#x27;executer des taches Codex dans des environnements cloud configures. Les environnements cloud decouplent l&#x27;execution de la machine locale et permettent des taches paralleles ou deleguees.</p>
+<p>Les fonctions cloud dependent de la configuration d&#x27;environnement, de l&#x27;acces au depot, des politiques reseau et des integrations actives.</p>
+<h2 id="ref-2-5-modes-local-worktree-et-cloud">2.5 Modes Local, Worktree et Cloud</h2>
+<p>Le mode Local travaille dans le repertoire courant du projet. Le mode Worktree isole les modifications dans un worktree Git separe. Le mode Cloud execute le travail dans un environnement distant configure.</p>
+<p>Les modes Local et Worktree s&#x27;executent sur l&#x27;ordinateur de l&#x27;utilisateur. Le mode Worktree fournit une isolation Git entre le travail courant et les changements produits par Codex.</p>
+<h1 id="ref-3-modeles-raisonnement-et-contexte">3. Modeles, raisonnement et contexte</h1>
+<h2 id="ref-3-1-modeles">3.1 Modeles</h2>
+<p>Codex utilise des modeles OpenAI adaptes aux taches de developpement. La documentation officielle indique <code>gpt-5.5</code> comme modele recommande pour la plupart des taches Codex, avec un accent sur le codage complexe, l&#x27;utilisation d&#x27;outils, la planification et les travaux multi-etapes.</p>
+<p>La disponibilite des modeles depend du plan, de la surface et des droits du compte.</p>
+<h2 id="ref-3-2-raisonnement">3.2 Raisonnement</h2>
+<p>Codex peut decomposer une demande, etablir un plan, lire les fichiers pertinents, effectuer des modifications, lancer des verifications et ajuster son travail selon les resultats obtenus.</p>
+<p>Le raisonnement est contraint par le contexte accessible, les instructions systeme et utilisateur, les regles du projet, les outils disponibles, les permissions, le bac a sable et la politique d&#x27;approbation.</p>
+<h2 id="ref-3-3-contexte-de-conversation">3.3 Contexte de conversation</h2>
+<p>Un fil Codex conserve les messages, decisions, plans et resultats pertinents pour le travail en cours. Les sessions peuvent etre reprises lorsque la surface le permet.</p>
+<p>Le contexte peut comprendre le prompt courant, les messages precedents, le contenu de fichiers lus, les sorties de commandes, les images ou documents fournis, les consignes de projet et les donnees d&#x27;outils connectes.</p>
+<h2 id="ref-3-4-memoires">3.4 Memoires</h2>
+<p>Lorsque la fonction est disponible, les memoires transportent des informations stables entre fils, telles que preferences, conventions de projet ou habitudes recurrentes. Elles completent les consignes de projet mais ne remplacent pas les instructions explicites du fil.</p>
+<h1 id="ref-4-outils-et-operations-sur-le-code">4. Outils et operations sur le code</h1>
+<h2 id="ref-4-1-lecture-et-modification-de-fichiers">4.1 Lecture et modification de fichiers</h2>
+<p>Codex peut lire les fichiers accessibles, analyser leur structure et produire des changements. Les modifications sont limitees par l&#x27;espace de travail, le bac a sable et les permissions accordees.</p>
+<h2 id="ref-4-2-execution-de-commandes">4.2 Execution de commandes</h2>
+<p>Codex peut executer des commandes via la surface active, notamment pour inspecter un projet, lancer des tests, demarrer un serveur local, formater du code ou verifier un resultat. L&#x27;execution est soumise aux approbations et aux restrictions du bac a sable.</p>
+<h2 id="ref-4-3-revue-de-code">4.3 Revue de code</h2>
+<p>Codex fournit une fonction de revue qui recherche anomalies, regressions, risques de comportement et lacunes de test. Dans la Codex App, le panneau de diff permet d&#x27;examiner les changements, de commenter des lignes et de demander des corrections.</p>
+<h2 id="ref-4-4-git">4.4 Git</h2>
+<p>Codex integre ou utilise des fonctions Git selon la surface : affichage de diff, staging, commit, push, creation de pull request, travail en worktree et inspection de l&#x27;etat du depot.</p>
+<h2 id="ref-4-5-terminal-integre">4.5 Terminal integre</h2>
+<p>Dans la Codex App, chaque fil dispose d&#x27;un terminal associe au projet ou au worktree. Ce terminal fournit un canal local pour les commandes de verification et d&#x27;exploitation du projet.</p>
+<h2 id="ref-4-6-navigateur-integre-et-browser-use">4.6 Navigateur integre et Browser Use</h2>
+<p>La Codex App fournit un navigateur integre pour previsualiser, commenter et verifier des pages locales, des previews de fichiers ou des pages publiques ne necessitant pas de connexion.</p>
+<p>Browser Use permet a Codex d&#x27;operer certaines pages, notamment des serveurs de developpement locaux et des previews de fichiers, lorsque les permissions et plugins requis sont presents.</p>
+<h2 id="ref-4-7-computer-use">4.7 Computer Use</h2>
+<p>Computer Use permet a Codex d&#x27;interagir avec des applications macOS ou Windows en voyant, cliquant et tapant. Cette fonction vise les tests d&#x27;applications de bureau, la reproduction d&#x27;anomalies GUI et les flux non accessibles par API ou plugin.</p>
+<h2 id="ref-4-8-entrees-image-et-generation-d-images">4.8 Entrees image et generation d&#x27;images</h2>
+<p>Codex accepte des images comme contexte. Il peut aussi generer ou modifier des images dans un fil lorsque la fonction est disponible, notamment pour des assets d&#x27;interface, illustrations, placeholders ou sprites.</p>
+<h2 id="ref-4-9-artefacts-non-code">4.9 Artefacts non-code</h2>
+<p>Codex peut produire et verifier des artefacts tels que PDF, documents, feuilles de calcul et presentations. La Codex App peut afficher ces artefacts dans la barre laterale de tache.</p>
+<h1 id="ref-5-personnalisation">5. Personnalisation</h1>
+<h2 id="ref-5-1-agents-md">5.1 AGENTS.md</h2>
+<p><code>AGENTS.md</code> fournit des consignes durables pour un depot ou une partie de depot. Les fichiers les plus proches du repertoire de travail ont priorite sur les fichiers plus generaux.</p>
+<p><code>AGENTS.md</code> sert a decrire les commandes de build et de test, conventions de code, attentes de revue, chemins ou fichiers a privilegier et instructions propres a une arborescence.</p>
+<h2 id="ref-5-2-configuration">5.2 Configuration</h2>
+<p>Codex peut etre configure par fichiers de configuration, variables d&#x27;environnement et reglages de surface. La configuration couvre notamment modeles, approbations, bac a sable, outils, MCP, hooks et preferences d&#x27;execution.</p>
+<h2 id="ref-5-3-skills">5.3 Skills</h2>
+<p>Les skills sont des capacites reutilisables, definies par un dossier contenant un fichier <code>SKILL.md</code> et, eventuellement, des scripts, references et assets.</p>
+<p>Elles permettent d&#x27;encapsuler des workflows repetables, une expertise de domaine, des modeles et ressources, des procedures avec validations et des integrations indirectes via MCP.</p>
+<h2 id="ref-5-4-plugins">5.4 Plugins</h2>
+<p>Les plugins sont des unites distribuables qui peuvent inclure skills, outils, serveurs MCP, hooks, assets ou applications. Ils servent a empaqueter des capacites partageables.</p>
+<h2 id="ref-5-5-mcp">5.5 MCP</h2>
+<p>Le Model Context Protocol relie Codex a des outils et systemes externes. Les configurations MCP sont partagees entre la Codex App, le CLI et l&#x27;extension IDE lorsque la surface les prend en charge.</p>
+<h2 id="ref-5-6-hooks">5.6 Hooks</h2>
+<p>Les hooks permettent d&#x27;associer des traitements a des evenements du cycle de vie Codex. Ils servent a appliquer ou verifier des politiques techniques autour des operations de l&#x27;agent.</p>
+<h2 id="ref-5-7-subagents">5.7 Subagents</h2>
+<p>Les subagents representent des agents specialises auxquels Codex peut deleguer des parties de travail. Ils sont destines aux taches qui beneficient d&#x27;une expertise ou d&#x27;un contexte specialise.</p>
+<h1 id="ref-6-securite-bac-a-sable-et-approbations">6. Securite, bac a sable et approbations</h1>
+<h2 id="ref-6-1-bac-a-sable">6.1 Bac a sable</h2>
+<p>Le bac a sable definit les ressources accessibles a Codex : fichiers lisibles, emplacements modifiables, acces reseau et autres capacites d&#x27;execution. Par defaut, Codex limite son travail au projet actif lorsque la surface le permet.</p>
+<h2 id="ref-6-2-approbations">6.2 Approbations</h2>
+<p>Les approbations determinent les operations qui exigent une confirmation de l&#x27;utilisateur ou une revue automatique. Elles peuvent etre accordees pour une action unique ou pour une portee plus large selon la surface et la politique.</p>
+<h2 id="ref-6-3-permissions">6.3 Permissions</h2>
+<p>Les permissions controlent l&#x27;acces aux fichiers, commandes, reseaux, applications locales et outils externes. Les permissions peuvent provenir de la configuration locale, de la politique admin ou d&#x27;une approbation utilisateur.</p>
+<h2 id="ref-6-4-reseau">6.4 Reseau</h2>
+<p>L&#x27;acces reseau peut etre desactive, limite, mis en cache ou accorde selon le mode. La recherche web de premiere partie est disponible dans certaines surfaces et peut fonctionner via cache ou resultats en direct selon la configuration.</p>
+<h1 id="ref-7-automatisation-et-integrations">7. Automatisation et integrations</h1>
+<h2 id="ref-7-1-automations">7.1 Automations</h2>
+<p>Les automations executent des taches recurrentes ou planifiees. Elles peuvent produire rapports, verifier erreurs, surveiller changements ou continuer un suivi.</p>
+<p>Les automations de fil conservent le contexte d&#x27;une conversation particuliere. Les automations de projet ou autonomes lancent des travaux recurrents avec un contexte de depart defini.</p>
+<h2 id="ref-7-2-mode-non-interactif">7.2 Mode non interactif</h2>
+<p>Le mode non interactif permet d&#x27;executer Codex dans des scripts ou chaines d&#x27;integration. Il convient aux taches definies par un prompt et une configuration.</p>
+<h2 id="ref-7-3-codex-sdk">7.3 Codex SDK</h2>
+<p>Le SDK Codex fournit une interface de programmation pour integrer Codex dans des workflows applicatifs ou outils internes.</p>
+<h2 id="ref-7-4-app-server-et-mode-distant">7.4 App Server et mode distant</h2>
+<p>L&#x27;app server permet a un client Codex de se connecter a un serveur distant par WebSocket ou socket local, avec mecanismes d&#x27;authentification appropries.</p>
+<h2 id="ref-7-5-integrations-github-slack-et-linear">7.5 Integrations GitHub, Slack et Linear</h2>
+<p>Les integrations relient Codex a des systemes de collaboration et de suivi. Leur disponibilite depend de l&#x27;installation, des autorisations de compte et de la configuration d&#x27;organisation.</p>
+<h1 id="ref-8-objets-de-reference">8. Objets de reference</h1>
+<h2 id="ref-8-1-projet">8.1 Projet</h2>
+<p>Un projet associe Codex a un repertoire ou depot. Il definit le perimetre de travail principal.</p>
+<h2 id="ref-8-2-fil">8.2 Fil</h2>
+<p>Un fil est une conversation operationnelle avec Codex. Il contient les demandes, reponses, plans, sorties et modifications associees a une tache ou serie de taches.</p>
+<h2 id="ref-8-3-worktree">8.3 Worktree</h2>
+<p>Un worktree est une copie de travail Git separee, utilisee pour isoler les modifications d&#x27;un fil par rapport au repertoire principal.</p>
+<h2 id="ref-8-4-chat">8.4 Chat</h2>
+<p>Un chat est un fil qui ne depend pas necessairement d&#x27;un dossier projet ou depot. Il convient a la recherche, la planification et les workflows d&#x27;outils connectes.</p>
+<h2 id="ref-8-5-skill">8.5 Skill</h2>
+<p>Une skill est un module d&#x27;instructions et de ressources reutilisables selectionne par Codex lorsqu&#x27;une tache correspond a sa description.</p>
+<h2 id="ref-8-6-plugin">8.6 Plugin</h2>
+<p>Un plugin est un paquet installable qui regroupe des capacites Codex.</p>
+<h2 id="ref-8-7-mcp-server">8.7 MCP server</h2>
+<p>Un serveur MCP expose des outils, ressources ou actions externes a Codex.</p>
+<h2 id="ref-8-8-hook">8.8 Hook</h2>
+<p>Un hook est un traitement associe a un evenement Codex.</p>
+<h2 id="ref-8-9-automation">8.9 Automation</h2>
+<p>Une automation est une execution planifiee ou recurrente d&#x27;une instruction Codex.</p>
+<h2 id="ref-8-10-bac-a-sable">8.10 Bac a sable</h2>
+<p>Le bac a sable est l&#x27;ensemble des limites d&#x27;acces appliquees aux actions de Codex.</p>
+<h1 id="ref-9-entrees-de-commande-et-de-configuration">9. Entrees de commande et de configuration</h1>
+<p>Ce chapitre decrit les principales entrees fonctionnelles. Il ne constitue pas une procedure d&#x27;utilisation.</p>
+<h2 id="ref-9-1-commande-codex">9.1 Commande <code>codex</code></h2>
+<p>La commande <code>codex</code> represente le point d&#x27;entree principal du client terminal. Elle ouvre une session interactive lorsque lancee sans sous-commande et accepte un prompt initial lorsque du texte lui est fourni.</p>
+<p>Fonctions associees :</p>
+<ul>
+<li>initialisation d&#x27;une conversation dans le repertoire courant ;</li>
+<li>selection d&#x27;un modele ou d&#x27;options de session ;</li>
+<li>interaction avec le bac a sable et les approbations ;</li>
+<li>affichage de plans, diffs et sorties ;</li>
+<li>reprise ou delegation a des sous-commandes.</li>
+</ul>
+<h2 id="ref-9-2-sous-commande-resume">9.2 Sous-commande <code>resume</code></h2>
+<p><code>resume</code> represente la fonction de reprise de session. Elle rattache une nouvelle execution a un transcript existant et conserve les elements de contexte pertinents de la conversation precedente.</p>
+<p>Les variantes de reprise distinguent la derniere session, une session choisie dans une liste, une session specifique par identifiant et, selon l&#x27;option, les sessions hors du repertoire courant.</p>
+<h2 id="ref-9-3-sous-commande-exec">9.3 Sous-commande <code>exec</code></h2>
+<p><code>exec</code> represente l&#x27;execution non interactive. Elle traite une instruction fournie au lancement et produit une sortie destinee aux scripts, chaines d&#x27;integration ou taches reproductibles.</p>
+<p>Cette fonction conserve les contraintes de securite de Codex : bac a sable, approbations, configuration, instructions de projet et limites d&#x27;outils.</p>
+<h2 id="ref-9-4-sous-commandes-serveur">9.4 Sous-commandes serveur</h2>
+<p>Les fonctions serveur, notamment l&#x27;app server et les modes distants, exposent une session Codex a un client se connectant par canal local ou WebSocket. Elles fournissent une separation entre le processus de service et le client d&#x27;interaction.</p>
+<p>Les fonctions serveur comprennent :</p>
+<ul>
+<li>ecoute sur une adresse locale ou distante ;</li>
+<li>authentification par jeton ou mecanisme configure ;</li>
+<li>connexion de clients distants ;</li>
+<li>controle d&#x27;une session depuis une autre surface.</li>
+</ul>
+<h2 id="ref-9-5-commandes-slash">9.5 Commandes slash</h2>
+<p>Les commandes slash representent des actions de session disponibles dans les interfaces interactives. Elles exposent des fonctions telles que l&#x27;affichage d&#x27;etat, le changement de modele, la gestion de contexte, la sortie de session ou l&#x27;acces a l&#x27;aide.</p>
+<p>La disponibilite exacte varie selon CLI, IDE et App.</p>
+<h2 id="ref-9-6-fichier-agents-md">9.6 Fichier <code>AGENTS.md</code></h2>
+<p><code>AGENTS.md</code> est un fichier d&#x27;instructions durables. Il est lu comme guidance de projet et peut exister a plusieurs niveaux : global utilisateur, racine du depot et sous-repertoires. Les fichiers plus proches du repertoire de travail definissent les consignes les plus specifiques.</p>
+<p>Attributs fonctionnels :</p>
+<ul>
+<li>portee durable ;</li>
+<li>versionnable avec le depot lorsqu&#x27;il est place dans le projet ;</li>
+<li>priorite par proximite ;</li>
+<li>adaptation du comportement de Codex avant le travail ;</li>
+<li>support des conventions, commandes et attentes de revue.</li>
+</ul>
+<h2 id="ref-9-7-fichier-de-configuration">9.7 Fichier de configuration</h2>
+<p>Le fichier de configuration Codex represente les reglages persistants du client et de l&#x27;agent. Il peut definir les valeurs par defaut relatives au modele, aux permissions, au bac a sable, aux serveurs MCP, aux hooks et aux preferences d&#x27;execution.</p>
+<p>Les reglages effectifs resultent de la combinaison entre configuration globale, configuration projet, options de lancement, politiques gerees et choix d&#x27;interface.</p>
+<h2 id="ref-9-8-variables-d-environnement">9.8 Variables d&#x27;environnement</h2>
+<p>Les variables d&#x27;environnement fournissent un canal de configuration externe au fichier de configuration. Elles conviennent aux secrets, aux chemins propres a l&#x27;environnement et aux reglages injectes par une chaine d&#x27;execution.</p>
+<p>Une variable d&#x27;environnement peut etre ignoree ou surclassee si la surface, la politique d&#x27;organisation ou la configuration active impose une autre valeur.</p>
+<h2 id="ref-9-9-regles-et-hooks">9.9 Regles et hooks</h2>
+<p>Les regles definissent des politiques d&#x27;autorisation ou de refus autour des commandes et actions. Les hooks fournissent des points d&#x27;execution autour d&#x27;evenements Codex.</p>
+<p>Les regles sont declaratives. Les hooks sont proceduraux. Les deux mecanismes completent les approbations utilisateur et les limites du bac a sable.</p>
+<h2 id="ref-9-10-profils-de-permissions">9.10 Profils de permissions</h2>
+<p>Les profils de permissions representent des ensembles de capacites accordees ou refusees : lecture, ecriture, execution, acces reseau, acces a des repertoires supplementaires ou utilisation d&#x27;outils externes.</p>
+<p>Les profils peuvent etre definis localement, geres par une organisation ou demandes pendant une session.</p>
+<h1 id="ref-10-matrice-fonctionnelle">10. Matrice fonctionnelle</h1>
+<h2 id="ref-10-1-fonctions-par-surface">10.1 Fonctions par surface</h2>
+<p>La Codex App couvre les fils paralleles, worktrees, terminal integre, diffs Git, artefacts, navigateur integre, automations, notifications et synchronisation IDE.</p>
+<p>Le CLI couvre l&#x27;interaction terminale, les sessions scriptables, la reprise de conversation, les modes non interactifs, les options de lancement et les modes serveur ou distant.</p>
+<p>L&#x27;extension IDE couvre le contexte de l&#x27;editeur, les fichiers ouverts, les selections, les commandes IDE et l&#x27;iteration directement dans l&#x27;environnement de developpement.</p>
+<p>Codex Web et Cloud couvrent l&#x27;execution distante, les environnements configures, les taches deleguees et les integrations cloud.</p>
+<h2 id="ref-10-2-fonctions-par-type-de-tache">10.2 Fonctions par type de tache</h2>
+<p>Pour comprehension de code, Codex utilise lecture de fichiers, analyse de structure, synthese et explication.</p>
+<p>Pour modification de code, Codex utilise planification, edition, execution de commandes, verification et resume.</p>
+<p>Pour revue, Codex utilise inspection de diff, recherche de bugs, risques, regressions et tests manquants.</p>
+<p>Pour automatisation, Codex utilise prompts recurrents, contexte de projet, worktrees ou environnement local, skills et notifications.</p>
+<p>Pour integration externe, Codex utilise MCP, plugins, connecteurs, API ou surfaces cloud selon la configuration.</p>
+<h2 id="ref-10-3-relations-entre-mecanismes">10.3 Relations entre mecanismes</h2>
+<p><code>AGENTS.md</code> decrit les regles durables du depot. Les skills decrivent des workflows reutilisables. Les plugins empaquetent des capacites. MCP connecte Codex a des systemes externes. Les hooks imposent des traitements autour d&#x27;evenements. Les automations planifient l&#x27;execution.</p>
+<p>Ces mecanismes sont complementaires : <code>AGENTS.md</code> oriente le comportement, les skills decrivent comment realiser des workflows, MCP donne acces a des donnees ou actions, les hooks encadrent l&#x27;execution et les automations declenchent le travail dans le temps.</p>
+<h1 id="ref-sources">Sources</h1>
+<ul>
+<li>OpenAI Developers, Codex Overview, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex Quickstart, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex app features, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex CLI features, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex customization, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, documentation Codex liee a sandboxing, configuration, MCP, skills et automatisation, consultee le 12 juin 2026.</li>
+</ul></article>
+      <article id="ug" class="doc"><h1 id="ug-openai-codex-guide-utilisateur">OpenAI Codex - Guide utilisateur</h1>
+<p>Version de travail francaise, d&#x27;apres la documentation officielle OpenAI Codex et la presentation documentaire DEC/VSI.</p>
+<h2 id="ug-preface">Preface</h2>
+<p>Ce guide explique comment se servir d&#x27;OpenAI Codex pour travailler sur du code, reviser des changements, automatiser des taches et exploiter les surfaces App, CLI, IDE et Web.</p>
+<p>Il suppose que l&#x27;utilisateur dispose d&#x27;un compte ou d&#x27;une cle API autorisee et que Codex est disponible dans son plan ou son organisation.</p>
+<h2 id="ug-public-vise">Public vise</h2>
+<p>Ce guide s&#x27;adresse aux utilisateurs qui veulent lancer Codex, choisir une surface, confier une tache, examiner les changements et regler les principaux mecanismes de personnalisation et de securite.</p>
+<h2 id="ug-structure-du-document">Structure du document</h2>
+<p>Ce guide contient les chapitres suivants :</p>
+<ul>
+<li>Chapitre 1 : demarrage et choix de surface.</li>
+<li>Chapitre 2 : utilisation de la Codex App.</li>
+<li>Chapitre 3 : utilisation du CLI.</li>
+<li>Chapitre 4 : utilisation de l&#x27;extension IDE.</li>
+<li>Chapitre 5 : utilisation de Codex Web et Cloud.</li>
+<li>Chapitre 6 : guider Codex.</li>
+<li>Chapitre 7 : verifier et finaliser le travail.</li>
+<li>Chapitre 8 : personnaliser Codex.</li>
+<li>Chapitre 9 : permissions, bac a sable et depannage courant.</li>
+<li>Chapitre 10 : scenarios courants.</li>
+</ul>
+<h2 id="ug-conventions">Conventions</h2>
+<p>Les commandes sont donnees en chasse fixe. Les exemples doivent etre adaptes au projet, au shell et aux regles locales. Les operations qui modifient des fichiers, executent des commandes ou accedent au reseau peuvent demander une approbation.</p>
+<h1 id="ug-1-demarrer">1. Demarrer</h1>
+<h2 id="ug-1-1-choisir-la-surface-a-utiliser">1.1 Choisir la surface a utiliser</h2>
+<p>Utilisez la Codex App lorsque vous voulez piloter plusieurs projets, gerer des fils en parallele, travailler avec des worktrees, examiner des diffs et utiliser les fonctions integrees de bureau.</p>
+<p>Utilisez le CLI lorsque vous travaillez principalement dans un terminal ou que vous voulez automatiser des taches.</p>
+<p>Utilisez l&#x27;extension IDE lorsque vous voulez que Codex voie naturellement le contexte de l&#x27;editeur et travaille au plus pres des fichiers ouverts.</p>
+<p>Utilisez Codex Web ou Cloud lorsque vous voulez deleguer un travail a un environnement distant configure.</p>
+<h2 id="ug-1-2-preparer-un-projet">1.2 Preparer un projet</h2>
+<p>Avant de lancer une tache :</p>
+<ol>
+<li>Ouvrez le dossier du projet.</li>
+<li>Verifiez l&#x27;etat Git.</li>
+<li>Notez les commandes de test ou de verification importantes.</li>
+<li>Decrivez clairement le resultat attendu.</li>
+<li>Precisez les limites : fichiers a ne pas toucher, style a conserver, tests a executer.</li>
+</ol>
+<p>Il est prudent de creer un point de controle Git avant une tache qui peut modifier le code.</p>
+<h2 id="ug-1-3-rediger-une-bonne-demande">1.3 Rediger une bonne demande</h2>
+<p>Une demande efficace contient l&#x27;objectif, le contexte utile, les contraintes, les fichiers ou zones concernees, le niveau de risque accepte et la verification attendue.</p>
+<p>Exemple :</p>
+<pre><code class="language-text">Trouve pourquoi le test de paiement echoue et corrige uniquement la cause probable.
+Lis d&#x27;abord les fichiers de test et de service de paiement.
+Garde les changements minimaux et lance le test concerne.</code></pre>
+<h1 id="ug-2-utiliser-la-codex-app">2. Utiliser la Codex App</h1>
+<h2 id="ug-2-1-installer-et-ouvrir">2.1 Installer et ouvrir</h2>
+<p>Installez l&#x27;application Codex pour macOS ou Windows depuis la page officielle. Ouvrez l&#x27;application, puis connectez-vous avec un compte ChatGPT ou une cle API OpenAI.</p>
+<p>Certaines fonctions peuvent varier selon le mode d&#x27;authentification, le plan et les politiques d&#x27;organisation.</p>
+<h2 id="ug-2-2-selectionner-un-projet">2.2 Selectionner un projet</h2>
+<p>Dans l&#x27;application, ajoutez ou selectionnez le dossier du projet. Un projet correspond a un codebase ou a une partie coherentement bornee d&#x27;un codebase.</p>
+<p>Si un depot contient plusieurs applications independantes, creez des projets distincts afin de garder un perimetre de travail clair.</p>
+<h2 id="ug-2-3-choisir-le-mode-du-fil">2.3 Choisir le mode du fil</h2>
+<p>Au lancement d&#x27;un fil, choisissez un mode :</p>
+<ul>
+<li>Local : Codex travaille dans le dossier courant.</li>
+<li>Worktree : Codex cree un worktree Git pour isoler les changements.</li>
+<li>Cloud : Codex travaille dans un environnement distant configure.</li>
+</ul>
+<p>Choisissez Worktree pour essayer une idee, executer plusieurs taches en parallele ou proteger votre repertoire courant.</p>
+<h2 id="ug-2-4-envoyer-une-premiere-demande">2.4 Envoyer une premiere demande</h2>
+<p>Dans le compositeur, decrivez la tache. Pour un premier contact avec un projet, demandez une analyse :</p>
+<pre><code class="language-text">Explique l&#x27;organisation de ce projet et indique les commandes utiles pour le tester.</code></pre>
+<p>Pour une modification ciblee :</p>
+<pre><code class="language-text">Ajoute la validation manquante dans le formulaire d&#x27;inscription.
+Respecte le style existant et lance les tests pertinents.</code></pre>
+<h2 id="ug-2-5-suivre-le-travail">2.5 Suivre le travail</h2>
+<p>Pendant l&#x27;execution, surveillez le plan propose, les fichiers lus, les commandes demandees, les changements produits, les messages d&#x27;erreur et les demandes d&#x27;approbation. Reorientez Codex si le travail sort du perimetre voulu.</p>
+<h2 id="ug-2-6-utiliser-le-terminal-integre">2.6 Utiliser le terminal integre</h2>
+<p>Chaque fil dispose d&#x27;un terminal associe au projet ou au worktree. Utilisez-le pour lancer des commandes de verification :</p>
+<pre><code class="language-text">git status
+npm test
+pnpm run lint</code></pre>
+<p>Codex peut lire la sortie du terminal lorsque la surface le permet. Vous pouvez donc lui demander d&#x27;analyser un echec de test deja visible.</p>
+<h2 id="ug-2-7-examiner-les-differences-git">2.7 Examiner les differences Git</h2>
+<p>Ouvrez le panneau de diff pour voir les fichiers modifies. Verifiez que les bons fichiers ont change, que les modifications sont minimales, que les tests ou preuves sont presents et qu&#x27;aucune donnee sensible n&#x27;a ete ajoutee.</p>
+<p>Ajoutez des commentaires inline si vous voulez que Codex corrige une ligne ou une section precise.</p>
+<h2 id="ug-2-8-commit-push-et-pull-request">2.8 Commit, push et pull request</h2>
+<p>Lorsque les changements sont corrects, utilisez les fonctions Git integrees ou le terminal pour preparer le commit.</p>
+<p>Avant de pousser :</p>
+<ol>
+<li>Relisez le diff.</li>
+<li>Lancez les tests requis.</li>
+<li>Verifiez le message de commit.</li>
+<li>Creez la pull request si le workflow du projet le demande.</li>
+</ol>
+<h2 id="ug-2-9-utiliser-le-navigateur-integre">2.9 Utiliser le navigateur integre</h2>
+<p>Pour verifier une application web locale :</p>
+<ol>
+<li>Demarrez le serveur de developpement.</li>
+<li>Ouvrez la page dans le navigateur integre.</li>
+<li>Inspectez le rendu.</li>
+<li>Ajoutez des commentaires sur les elements visuels a corriger.</li>
+<li>Demandez a Codex d&#x27;appliquer les corrections.</li>
+</ol>
+<p>Le navigateur integre ne remplace pas un navigateur connecte a votre profil. Il n&#x27;est pas destine aux flux d&#x27;authentification complexes.</p>
+<h2 id="ug-2-10-utiliser-des-images-et-artefacts">2.10 Utiliser des images et artefacts</h2>
+<p>Glissez une image dans le prompt pour la fournir comme contexte. Pour des documents, feuilles de calcul, presentations ou PDF, indiquez le type de fichier attendu, la structure, les criteres de verification et le chemin de sortie souhaite si necessaire.</p>
+<h1 id="ug-3-utiliser-le-cli">3. Utiliser le CLI</h1>
+<h2 id="ug-3-1-lancer-une-session-interactive">3.1 Lancer une session interactive</h2>
+<p>Depuis le repertoire du projet :</p>
+<pre><code class="language-text">codex</code></pre>
+<p>Vous pouvez aussi fournir une demande initiale :</p>
+<pre><code class="language-text">codex &quot;Explique cette base de code&quot;</code></pre>
+<p>Codex ouvre une interface terminale interactive qui peut lire le depot, proposer un plan, modifier des fichiers et executer des commandes selon les autorisations.</p>
+<h2 id="ug-3-2-interagir-pendant-une-session">3.2 Interagir pendant une session</h2>
+<p>Pendant une session CLI, envoyez des prompts et extraits de code, examinez les plans et diffs, acceptez ou refusez les operations controlees, utilisez les commandes slash disponibles et quittez la session lorsque le travail est termine.</p>
+<h2 id="ug-3-3-reprendre-une-session">3.3 Reprendre une session</h2>
+<p>Pour rouvrir une session recente :</p>
+<pre><code class="language-text">codex resume</code></pre>
+<p>Pour reprendre la derniere session du repertoire courant :</p>
+<pre><code class="language-text">codex resume --last</code></pre>
+<p>Pour afficher aussi les sessions d&#x27;autres repertoires :</p>
+<pre><code class="language-text">codex resume --all</code></pre>
+<p>La reprise conserve le transcript, l&#x27;historique de plan et le contexte utile de la session.</p>
+<h2 id="ug-3-4-lancer-avec-un-modele-particulier">3.4 Lancer avec un modele particulier</h2>
+<p>Lorsque vous devez choisir explicitement un modele :</p>
+<pre><code class="language-text">codex --model gpt-5.5</code></pre>
+<p>Dans une session, utilisez la commande de changement de modele fournie par l&#x27;interface.</p>
+<h2 id="ug-3-5-executer-en-mode-non-interactif">3.5 Executer en mode non interactif</h2>
+<p>Pour des workflows automatises, utilisez le mode non interactif lorsque disponible :</p>
+<pre><code class="language-text">codex exec &quot;Execute les tests et resume les echecs&quot;</code></pre>
+<p>Le mode non interactif convient aux taches bornees. Fournissez un prompt precis et configurez les permissions avant de l&#x27;integrer a une chaine automatique.</p>
+<h2 id="ug-3-6-utiliser-le-mode-distant">3.6 Utiliser le mode distant</h2>
+<p>Un serveur d&#x27;application peut exposer une connexion WebSocket. Le client CLI peut s&#x27;y connecter avec une URL distante et une authentification configuree.</p>
+<p>N&#x27;utilisez une connexion non chiffree que pour <code>localhost</code> ou un tunnel de confiance. Pour une machine distante, prevoyez authentification et TLS selon les regles officielles.</p>
+<h1 id="ug-4-utiliser-l-extension-ide">4. Utiliser l&#x27;extension IDE</h1>
+<h2 id="ug-4-1-installer-l-extension">4.1 Installer l&#x27;extension</h2>
+<p>Installez l&#x27;extension Codex dans l&#x27;editeur pris en charge. Ouvrez ensuite le panneau Codex depuis la barre laterale.</p>
+<h2 id="ug-4-2-se-connecter">4.2 Se connecter</h2>
+<p>Connectez-vous avec votre compte ChatGPT ou une cle API OpenAI. L&#x27;extension demarre en mode agent par defaut lorsque la configuration l&#x27;autorise.</p>
+<h2 id="ug-4-3-travailler-avec-le-contexte-de-l-editeur">4.3 Travailler avec le contexte de l&#x27;editeur</h2>
+<p>Ouvrez les fichiers pertinents avant de poser une question. Vous pouvez demander :</p>
+<pre><code class="language-text">Explique le fichier ouvert et indique les fonctions a risque.</code></pre>
+<p>Ou :</p>
+<pre><code class="language-text">Corrige le probleme dans la fonction selectionnee sans modifier l&#x27;API publique.</code></pre>
+<h2 id="ug-4-4-synchroniser-avec-la-codex-app">4.4 Synchroniser avec la Codex App</h2>
+<p>Lorsque la Codex App et l&#x27;extension IDE sont ouvertes sur le meme projet, elles peuvent synchroniser le contexte et les fils. Utilisez cette synchronisation pour alterner entre travail dans l&#x27;editeur et revue plus large dans l&#x27;application.</p>
+<h1 id="ug-5-utiliser-codex-web-et-cloud">5. Utiliser Codex Web et Cloud</h1>
+<h2 id="ug-5-1-choisir-une-tache-cloud">5.1 Choisir une tache cloud</h2>
+<p>Utilisez Cloud pour les taches qui peuvent s&#x27;executer dans un environnement distant : analyse de depot, correction isolee, migration, generation de tests, revue ou tache parallele longue.</p>
+<p>Evitez d&#x27;envoyer une tache cloud lorsque le resultat depend d&#x27;un fichier local non pousse, d&#x27;un secret local ou d&#x27;un outil indisponible dans l&#x27;environnement.</p>
+<h2 id="ug-5-2-configurer-l-environnement">5.2 Configurer l&#x27;environnement</h2>
+<p>Avant de confier une tache cloud, verifiez l&#x27;acces au depot, les dependances, les commandes de test, l&#x27;acces reseau, les variables et secrets autorises, ainsi que les politiques d&#x27;organisation.</p>
+<h2 id="ug-5-3-recuperer-les-resultats">5.3 Recuperer les resultats</h2>
+<p>Examinez le resume, les fichiers modifies, les logs et les tests executes. Ramenez les changements dans votre workflow Git selon les procedures du projet.</p>
+<h1 id="ug-6-guider-codex">6. Guider Codex</h1>
+<h2 id="ug-6-1-donner-des-instructions-courtes-et-verifiables">6.1 Donner des instructions courtes et verifiables</h2>
+<p>Preferez :</p>
+<pre><code class="language-text">Ajoute un test pour le cas ou le montant est nul, puis corrige la validation si le test echoue.</code></pre>
+<p>Evitez les demandes trop larges sans critere :</p>
+<pre><code class="language-text">Ameliore tout le module.</code></pre>
+<h2 id="ug-6-2-encadrer-les-changements">6.2 Encadrer les changements</h2>
+<p>Indiquez clairement les fichiers autorises, les fichiers interdits, le niveau de refactorisation accepte, les tests obligatoires et le format de reponse attendu.</p>
+<h2 id="ug-6-3-demander-une-revue">6.3 Demander une revue</h2>
+<p>Pour une revue de code :</p>
+<pre><code class="language-text">Fais une revue de ce diff. Priorise les bugs, regressions, risques de securite et tests manquants.
+Ne modifie pas les fichiers.</code></pre>
+<h2 id="ug-6-4-demander-une-correction-prudente">6.4 Demander une correction prudente</h2>
+<p>Pour une correction :</p>
+<pre><code class="language-text">Trouve la cause la plus probable de l&#x27;echec et corrige-la avec le plus petit changement raisonnable.
+Explique les fichiers modifies et les tests lances.</code></pre>
+<h2 id="ug-6-5-fournir-des-preuves-attendues">6.5 Fournir des preuves attendues</h2>
+<p>Ajoutez la verification desiree :</p>
+<pre><code class="language-text">Lance le test unitaire concerne et indique le resultat exact.
+Si le test ne peut pas etre lance, explique pourquoi.</code></pre>
+<h1 id="ug-7-verifier-et-finaliser">7. Verifier et finaliser</h1>
+<h2 id="ug-7-1-lire-le-resume">7.1 Lire le resume</h2>
+<p>A la fin d&#x27;une tache, verifiez que le resume repond a la demande initiale : objectif atteint, fichiers modifies, tests lances, limitations et suites possibles.</p>
+<h2 id="ug-7-2-controler-le-diff">7.2 Controler le diff</h2>
+<p>Avant de valider :</p>
+<pre><code class="language-text">git status
+git diff</code></pre>
+<p>Assurez-vous qu&#x27;aucun fichier non lie n&#x27;est modifie.</p>
+<h2 id="ug-7-3-lancer-les-tests">7.3 Lancer les tests</h2>
+<p>Lancez les tests recommandes par Codex ou ceux du projet :</p>
+<pre><code class="language-text">npm test
+pnpm test
+pytest
+cargo test</code></pre>
+<p>Adaptez ces commandes a votre stack.</p>
+<h2 id="ug-7-4-demander-une-deuxieme-passe">7.4 Demander une deuxieme passe</h2>
+<p>Si un detail manque :</p>
+<pre><code class="language-text">Le changement est bon, mais ajoute un test pour le cas limite X et relance uniquement ce test.</code></pre>
+<p>Si le resultat est trop large :</p>
+<pre><code class="language-text">Reviens a une correction plus minimale. Garde uniquement les changements necessaires au bug signale.</code></pre>
+<h1 id="ug-8-personnaliser-codex">8. Personnaliser Codex</h1>
+<h2 id="ug-8-1-ajouter-un-fichier-agents-md">8.1 Ajouter un fichier AGENTS.md</h2>
+<p>Dans le depot, creez un fichier <code>AGENTS.md</code> pour les regles durables :</p>
+<pre><code class="language-markdown"># Instructions pour Codex
+
+- Utiliser pnpm, pas npm.
+- Lancer `pnpm test` avant de proposer un commit.
+- Ne pas modifier les fichiers generes dans `dist/`.
+- Pour les composants React, suivre les patterns de `src/components`.</code></pre>
+<p>Placez un <code>AGENTS.md</code> plus specifique dans un sous-repertoire si des regles differentes s&#x27;appliquent a cette zone.</p>
+<h2 id="ug-8-2-mettre-a-jour-agents-md-apres-une-erreur-recurrente">8.2 Mettre a jour AGENTS.md apres une erreur recurrente</h2>
+<p>Si Codex repete une mauvaise hypothese, demandez-lui de formaliser la correction :</p>
+<pre><code class="language-text">Ajoute dans AGENTS.md que les migrations de base de donnees doivent etre creees avec l&#x27;outil interne, pas a la main.</code></pre>
+<h2 id="ug-8-3-utiliser-une-skill">8.3 Utiliser une skill</h2>
+<p>Utilisez une skill lorsqu&#x27;un workflow revient souvent : release, revue, generation de documentation, verification de donnees ou creation d&#x27;artefact.</p>
+<p>Vous pouvez invoquer explicitement une skill si son nom est connu :</p>
+<pre><code class="language-text">$nom_de_skill Prepare la note de version a partir du diff courant.</code></pre>
+<h2 id="ug-8-4-configurer-mcp">8.4 Configurer MCP</h2>
+<p>Utilisez MCP lorsque Codex doit acceder a des outils ou donnees externes : tickets, docs internes, bases de connaissances, depots, services de design ou autres systemes d&#x27;equipe.</p>
+<p>Dans la Codex App, ouvrez la section MCP des reglages pour activer un serveur recommande ou ajouter une configuration.</p>
+<h2 id="ug-8-5-utiliser-les-hooks">8.5 Utiliser les hooks</h2>
+<p>Employez les hooks pour automatiser des controles autour des actions Codex, par exemple verifier une politique avant une commande ou journaliser certains evenements.</p>
+<h2 id="ug-8-6-utiliser-les-automations">8.6 Utiliser les automations</h2>
+<p>Pour creer une tache recurrente, decrivez la frequence, le projet concerne, la demande, le resultat attendu et le canal de notification ou de resume.</p>
+<p>Exemple :</p>
+<pre><code class="language-text">Cree une automation quotidienne qui verifie les echecs de tests recents et produit un court rapport.</code></pre>
+<p>Utilisez une automation de fil lorsque la recurrence doit conserver le contexte de la conversation courante.</p>
+<h1 id="ug-9-permissions-bac-a-sable-et-depannage">9. Permissions, bac a sable et depannage</h1>
+<h2 id="ug-9-1-comprendre-les-approbations">9.1 Comprendre les approbations</h2>
+<p>Lorsque Codex demande une approbation, lisez l&#x27;action demandee, les fichiers ou ressources concernes, la duree de l&#x27;autorisation et le niveau de risque.</p>
+<p>Si vous hesitez, accordez la portee la plus etroite ou refusez et demandez une autre approche.</p>
+<h2 id="ug-9-2-comprendre-le-bac-a-sable">9.2 Comprendre le bac a sable</h2>
+<p>Le bac a sable limite l&#x27;acces de Codex. Si une commande echoue par manque d&#x27;acces, choisissez entre accorder une permission ciblee, deplacer les fichiers necessaires dans le projet, demander une solution qui n&#x27;a pas besoin de cet acces ou ouvrir un projet plus adapte.</p>
+<h2 id="ug-9-3-gerer-l-acces-reseau">9.3 Gerer l&#x27;acces reseau</h2>
+<p>Si Codex doit verifier une information recente ou installer une dependance, il peut avoir besoin du reseau. Accordez l&#x27;acces seulement si la tache le justifie et si la politique du projet l&#x27;autorise.</p>
+<h2 id="ug-9-4-quand-codex-ne-trouve-pas-les-bons-fichiers">9.4 Quand Codex ne trouve pas les bons fichiers</h2>
+<p>Donnez une indication de routage :</p>
+<pre><code class="language-text">Lis d&#x27;abord `src/payments/` et `tests/payments/`. Ignore `legacy/` sauf si necessaire.</code></pre>
+<p>Si cette indication sera utile a long terme, ajoutez-la dans <code>AGENTS.md</code>.</p>
+<h2 id="ug-9-5-quand-codex-propose-trop-de-changements">9.5 Quand Codex propose trop de changements</h2>
+<p>Reformulez avec une contrainte explicite :</p>
+<pre><code class="language-text">Reduis le changement au minimum necessaire. Pas de refactorisation hors du fichier concerne.</code></pre>
+<h2 id="ug-9-6-quand-les-tests-echouent">9.6 Quand les tests echouent</h2>
+<p>Demandez une analyse bornee :</p>
+<pre><code class="language-text">Analyse cet echec de test. Ne modifie rien avant d&#x27;avoir identifie la cause probable.</code></pre>
+<p>Puis, si la cause est claire :</p>
+<pre><code class="language-text">Applique la correction minimale et relance ce test uniquement.</code></pre>
+<h2 id="ug-9-7-quand-utiliser-une-autre-surface">9.7 Quand utiliser une autre surface</h2>
+<p>Passez a l&#x27;IDE si le contexte principal est un fichier ouvert ou une selection. Passez a la Codex App si vous devez gerer des fils, worktrees, diffs et artefacts. Passez au CLI si le travail est terminal-first ou scriptable. Passez au Cloud si la tache doit etre deleguee a distance.</p>
+<h1 id="ug-10-scenarios-courants">10. Scenarios courants</h1>
+<h2 id="ug-10-1-comprendre-une-base-de-code-inconnue">10.1 Comprendre une base de code inconnue</h2>
+<p>Demandez d&#x27;abord une cartographie avant toute modification :</p>
+<pre><code class="language-text">Explique l&#x27;organisation de ce projet. Identifie les modules principaux, les commandes de verification et les fichiers a lire avant de modifier le code.
+Ne modifie rien.</code></pre>
+<p>Si le projet est volumineux, bornez la recherche :</p>
+<pre><code class="language-text">Concentre-toi sur le parcours d&#x27;authentification. Lis les fichiers pertinents et resume le flux de bout en bout.</code></pre>
+<p>Lorsque la synthese est correcte, demandez a Codex de proposer une consigne durable :</p>
+<pre><code class="language-text">Propose une section AGENTS.md courte pour aider les prochaines sessions a trouver les bons fichiers d&#x27;authentification.</code></pre>
+<h2 id="ug-10-2-corriger-un-bug-avec-risque-faible">10.2 Corriger un bug avec risque faible</h2>
+<p>Commencez par la reproduction :</p>
+<pre><code class="language-text">Reproduis ou localise l&#x27;echec signale. Ne corrige rien avant d&#x27;avoir indique la cause probable et les fichiers concernes.</code></pre>
+<p>Puis demandez la correction :</p>
+<pre><code class="language-text">Applique la correction minimale pour cette cause probable. Evite toute refactorisation non necessaire. Lance le test le plus cible.</code></pre>
+<p>Terminez par une verification :</p>
+<pre><code class="language-text">Resume le changement, le test lance et les risques restants.</code></pre>
+<h2 id="ug-10-3-ajouter-une-petite-fonctionnalite">10.3 Ajouter une petite fonctionnalite</h2>
+<p>Fournissez la definition de fini :</p>
+<pre><code class="language-text">Ajoute le filtre &quot;archives&quot; a la liste des dossiers.
+Le filtre doit etre visible dans l&#x27;interface, persiste dans l&#x27;URL et couvert par un test.
+Respecte les patterns existants.</code></pre>
+<p>Si Codex propose une architecture trop large :</p>
+<pre><code class="language-text">Garde l&#x27;implementation locale a ce module. Ne cree pas de nouvelle abstraction sauf si elle existe deja dans le projet.</code></pre>
+<h2 id="ug-10-4-faire-une-revue-de-pull-request">10.4 Faire une revue de pull request</h2>
+<p>Dans une surface qui voit le diff, demandez :</p>
+<pre><code class="language-text">Fais une revue de ce diff comme reviewer senior.
+Liste d&#x27;abord les bugs ou regressions probables, avec fichier et ligne.
+Mentionne ensuite les tests manquants.
+Ne commente pas le style sauf s&#x27;il cache un risque.</code></pre>
+<p>Pour transformer la revue en corrections :</p>
+<pre><code class="language-text">Corrige uniquement les points P1 et P2 de la revue. Laisse le reste intact.</code></pre>
+<h2 id="ug-10-5-travailler-sur-une-interface-web">10.5 Travailler sur une interface web</h2>
+<p>Demarrez le serveur local, puis demandez a Codex de verifier :</p>
+<pre><code class="language-text">Ouvre l&#x27;application locale dans le navigateur integre, verifie la page de connexion et corrige les problemes visibles de mise en page.
+Teste desktop et mobile si possible.</code></pre>
+<p>Ajoutez des commentaires dans le navigateur integre si un element visuel precis doit etre corrige, puis demandez :</p>
+<pre><code class="language-text">Traite les commentaires du navigateur et verifie a nouveau le rendu.</code></pre>
+<h2 id="ug-10-6-produire-un-document-ou-artefact">10.6 Produire un document ou artefact</h2>
+<p>Donnez la forme attendue :</p>
+<pre><code class="language-text">Cree un document Markdown de reference pour ce module.
+Structure : preface, public vise, concepts, API, erreurs, exemples.
+Ne documente que le comportement present dans le code.</code></pre>
+<p>Pour un artefact bureautique :</p>
+<pre><code class="language-text">Cree une presentation de 8 diapositives a partir de ces notes.
+Ajoute une diapositive de synthese, une diapositive risques et une diapositive prochaines etapes.
+Verifie le rendu avant de me donner le fichier.</code></pre>
+<h2 id="ug-10-7-mettre-en-place-une-automation">10.7 Mettre en place une automation</h2>
+<p>Decrivez la recurrence et le resultat attendu :</p>
+<pre><code class="language-text">Cree une automation hebdomadaire pour ce projet.
+Chaque lundi matin, elle doit verifier les dependances obsoletes, resumer les mises a jour importantes et ne modifier aucun fichier.</code></pre>
+<p>Pour un suivi dans le meme fil :</p>
+<pre><code class="language-text">Ajoute une automation de fil qui me relance toutes les 30 minutes tant que le deploiement n&#x27;est pas termine.</code></pre>
+<h2 id="ug-10-8-ajouter-une-integration-externe">10.8 Ajouter une integration externe</h2>
+<p>Lorsque l&#x27;information vit hors du depot, preferez MCP ou un plugin :</p>
+<pre><code class="language-text">Configure ou utilise le connecteur approprie pour lire le ticket Linear lie a cette branche, puis resume les criteres d&#x27;acceptation.</code></pre>
+<p>Si l&#x27;outil n&#x27;est pas disponible :</p>
+<pre><code class="language-text">Indique quelle integration manque, quelles permissions seraient necessaires et quelle information je peux te fournir manuellement.</code></pre>
+<h2 id="ug-10-9-nettoyer-apres-une-tache">10.9 Nettoyer apres une tache</h2>
+<p>Avant de clore :</p>
+<pre><code class="language-text">Verifie l&#x27;etat Git, liste les fichiers modifies et indique les commandes de test executees.
+Signale tout fichier non lie a la tache.</code></pre>
+<p>Si les changements doivent etre separes :</p>
+<pre><code class="language-text">Propose un decoupage en commits logiques. Ne stage rien sans confirmation.</code></pre>
+<h2 id="ug-10-10-ecrire-une-instruction-durable">10.10 Ecrire une instruction durable</h2>
+<p>Apres plusieurs corrections de trajectoire, demandez :</p>
+<pre><code class="language-text">Transforme mes corrections recurrentes en instructions AGENTS.md courtes, sans dupliquer ce qui existe deja.</code></pre>
+<p>Relisez la proposition avant de l&#x27;accepter. Les instructions durables doivent rester petites, specifiques et utiles aux prochaines sessions.</p>
+<h1 id="ug-sources">Sources</h1>
+<ul>
+<li>OpenAI Developers, Codex Overview, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex Quickstart, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex app features, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex CLI features, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, Codex customization, consulte le 12 juin 2026.</li>
+<li>OpenAI Developers, documentation Codex liee a sandboxing, configuration, MCP, skills et automatisation, consultee le 12 juin 2026.</li>
+</ul></article>
+    </section>
+  </main>
+  <footer><div class="shell">Sources : documentation officielle OpenAI Developers Codex et templates PDF DEC/VSI fournis dans le projet.</div></footer>
+  <script>
+    const tabs = [...document.querySelectorAll('.tab')];
+    const docs = [...document.querySelectorAll('.doc')];
+    const tocSets = [...document.querySelectorAll('.toc-set')];
+    const search = document.getElementById('search');
+    const noResults = document.getElementById('noResults');
+    const originals = new Map(docs.map(doc => [doc.id, doc.innerHTML]));
+    function activeDoc() { return document.querySelector('.doc.active'); }
+    function switchDoc(id) {
+      docs.forEach(doc => doc.classList.toggle('active', doc.id === id));
+      tabs.forEach(tab => {
+        const on = tab.dataset.target === id;
+        tab.classList.toggle('active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      tocSets.forEach(set => set.style.display = set.dataset.doc === id ? 'block' : 'none');
+      search.value = '';
+      noResults.style.display = 'none';
+      docs.forEach(doc => doc.innerHTML = originals.get(doc.id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    tabs.forEach(tab => tab.addEventListener('click', () => switchDoc(tab.dataset.target)));
+    function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function htmlEscape(s) { return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    search.addEventListener('input', () => {
+      const doc = activeDoc();
+      doc.innerHTML = originals.get(doc.id);
+      const q = search.value.trim();
+      noResults.style.display = 'none';
+      if (!q) return;
+      const walker = document.createTreeWalker(doc, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue.toLowerCase().includes(q.toLowerCase())) return NodeFilter.FILTER_REJECT;
+          if (node.parentElement.closest('script, style, code, pre')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(node => {
+        const span = document.createElement('span');
+        span.innerHTML = htmlEscape(node.nodeValue).replace(new RegExp(escapeRegExp(q), 'gi'), m => `<mark>${htmlEscape(m)}</mark>`);
+        node.parentNode.replaceChild(span, node);
+      });
+      noResults.style.display = nodes.length ? 'none' : 'block';
+      const first = doc.querySelector('mark');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+</script>
+</body>
+</html>
