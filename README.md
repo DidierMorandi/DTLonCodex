@@ -7,8 +7,8 @@ This repository brings together a user guide, a reference manual, and a complete
 ## Available Documents
 
 - [Complete documentation](OpenAI_Codex_Documentation_NetDTL.html): single-page HTML version, with navigation and search.
-- [Reference manual](DTLonCodex_Manuel_de_reference.html): functional description of Codex surfaces, objects, mechanisms, and capabilities.
-- [User guide](DTLonCodex_Guide_utilisateur.html): practical instructions for getting started, guiding Codex, checking results, and handling common scenarios.
+- [Reference manual](https://www.netdtl.com/doc/DTLonCodex_Reference_Manual.html): functional description of Codex surfaces, objects, mechanisms, and capabilities.
+- [User guide](https://www.netdtl.com/doc/DTLonCodex_User_Guide.html): practical instructions for getting started, guiding Codex, checking results, and handling common scenarios.
 
 ## What This Documentation Is For
 
