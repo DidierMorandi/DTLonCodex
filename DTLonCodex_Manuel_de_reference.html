@@ -7,10 +7,11 @@
   <style>
 :root { --bg:#0b0d0f; --panel:#131619; --text:#e8eaed; --muted:#9aa4b2; --blue:#0616b8; --blue2:#0b35ff; --green:#00ff2f; --warning:#ffbf00; --border:rgba(255,255,255,.12); --shadow:0 22px 70px rgba(0,0,0,.36); --paper-text:#14181f; }
 * { box-sizing:border-box; } html { scroll-behavior:smooth; }
-body { margin:0; background:linear-gradient(180deg,#080a0d 0%,var(--bg) 38%,#090b0f 100%); color:var(--text); font-family:"Segoe UI",Arial,sans-serif; line-height:1.65; }
+body { margin:0; background:radial-gradient(circle at 12% 0%,rgba(11,53,255,.26),transparent 34rem),linear-gradient(180deg,#080a0d 0%,var(--bg) 38%,#090b0f 100%); color:var(--text); font-family:"Segoe UI",Arial,sans-serif; line-height:1.65; }
 a { color:inherit; } .shell { width:min(1320px,calc(100% - 32px)); margin:0 auto; }
 .hero { padding:32px 0 22px; border-bottom:1px solid var(--border); } .brand { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-.kicker { color:var(--green); font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; } h1 { margin:8px 0; font-size:clamp(2rem,5vw,4.2rem); line-height:.98; letter-spacing:0; } .subtitle { max-width:820px; color:var(--muted); font-size:1.08rem; margin:0; }
+.logo-stack { display:flex; flex-direction:column; align-items:center; gap:6px; } .logo-by { color:var(--muted); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; } .brand img { width:134px; max-width:min(40vw,134px); } .kicker { color:var(--green); font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; } h1 { margin:8px 0; font-size:clamp(2rem,5vw,4.2rem); line-height:.98; letter-spacing:0; } .subtitle { max-width:820px; color:var(--muted); font-size:1.08rem; margin:0; }
+.doc-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; } .doc-links a { text-decoration:none; color:#fff; border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.05); padding:9px 12px; } .doc-links a:hover { border-color:rgba(0,255,47,.45); color:var(--green); }
 .layout { display:grid; grid-template-columns:300px 1fr; gap:22px; padding:24px 0 56px; } .toc { position:sticky; top:14px; align-self:start; max-height:calc(100vh - 28px); overflow:auto; padding:18px; border:1px solid var(--border); border-radius:8px; background:rgba(19,22,25,.86); box-shadow:var(--shadow); backdrop-filter:blur(10px); } .toc-title { margin:0 0 12px; color:#fff; font-weight:700; } .toc a { display:block; text-decoration:none; color:var(--muted); padding:5px 0; border-left:2px solid transparent; } .toc a:hover { color:#fff; border-left-color:var(--green); padding-left:8px; } .toc-l1 { font-weight:700; color:#dce5ff!important; margin-top:8px; } .toc-l2 { padding-left:10px!important; } .toc-l3 { padding-left:22px!important; font-size:.92rem; }
 article { border:1px solid var(--border); border-radius:8px; background:linear-gradient(180deg,rgba(26,30,35,.96),rgba(13,15,18,.96)); box-shadow:var(--shadow); padding:clamp(22px,4vw,44px); } article h1:first-child { display:none; } article h1 { margin:34px 0 14px; padding-top:16px; border-top:1px solid var(--border); font-size:clamp(1.8rem,3vw,2.5rem); } article h2 { margin:28px 0 10px; font-size:1.35rem; color:#fff; } article h3 { margin:22px 0 8px; font-size:1.04rem; color:#fff; } article p { margin:0 0 13px; color:#d8dde6; } article ul, article ol { margin:8px 0 16px; padding-left:1.4rem; } article li { margin:5px 0; }
 code { background:rgba(0,255,47,.08); border:1px solid rgba(0,255,47,.22); color:#baffc5; border-radius:5px; padding:.08rem .28rem; } pre { margin:16px 0 20px; padding:16px; overflow:auto; background:#07090c; border:1px solid rgba(78,158,255,.22); border-radius:8px; } pre code { border:0; background:transparent; color:#d9fbe0; padding:0; }
@@ -23,10 +24,20 @@ code { background:rgba(0,255,47,.08); border:1px solid rgba(0,255,47,.22); color
   <header class="hero">
     <div class="shell">
       <div class="brand">
+        <div class="logo-stack">
+          <div class="logo-by">Une production</div>
+          <img src="netdtl_logo.png" alt="NetDTL">
+        </div>
         <div>
           <h1>DTLonCodex - Manuel de référence</h1>
+          <p class="subtitle">Référence fonctionnelle du logiciel OpenAI Codex</p>
         </div>
       </div>
+      <nav class="doc-links" aria-label="Navigation documentaire">
+        <a href="index.html">Accueil</a>
+        <a href="OpenAI_Codex_Documentation_NetDTL.html">Documentation complète</a>
+        <a href="DTLonCodex_Guide_utilisateur.html">Guide utilisateur</a>
+      </nav>
       <div class="meta"><div class="meta-card"><strong>Outil</strong><span>DTLonCodex</span></div><div class="meta-card"><strong>Type</strong><span>Manuel de référence de OpenAI Codex</span></div><div class="meta-card"><strong>Langue</strong><span>Français</span></div></div>
     </div>
   </header>
